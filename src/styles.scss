@@ -1,4 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+
+$primary:#ED7D31;
+$secondary: #2AEEFA;
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+.container{
+    background-color: white;
+    border-radius: 10px;
+    opacity: 0.9;
+    padding: 2em;
+}

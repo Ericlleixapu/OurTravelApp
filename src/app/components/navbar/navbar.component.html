@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-primary mb-3">
+	<div class="container-fluid">
+		<a class="navbar-brand" [routerLink]="'.'">OurTravel</a>
+
+		<button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+
+		<div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end">
+
+
+			  <ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" [routerLink]="'/travels'" (click)="isMenuCollapsed = true">Els meus viatges</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true">Inici de sessió</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
