@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-primary mb-3">
 	<div class="container-fluid">
-		<a class="navbar-brand" [routerLink]="'.'">OurTravel</a>
+		<img src="assets/bta-logo-b.png" class="float-end" style="max-width: 35px;" alt="...">
+		<a class="navbar-brand" [routerLink]="'.'"> OurTravel</a>
 
 		<button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
 
@@ -11,8 +12,11 @@
 				<li class="nav-item">
 					<a class="nav-link" [routerLink]="'/travels'" (click)="isMenuCollapsed = true">Els meus viatges</a>
 				</li>
-				<li class="nav-item active">
-					<a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true">Inici de sessió</a>
+				<li *ngIf="authService.isAuthenticated() == false" class="nav-item">
+					<a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true"><i class="fa-regular fa-user"></i> Inici de sessió</a>
+				</li>
+				<li *ngIf="authService.isAuthenticated() == true" class="nav-item">
+					<a class="nav-link" [routerLink]="'/profile'" (click)="isMenuCollapsed = true"><i class="fa-regular fa-user"></i> User</a>
 				</li>
 			</ul>
 		</div>

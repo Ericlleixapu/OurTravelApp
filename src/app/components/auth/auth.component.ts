@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from 'express';
 import { FormsModule } from '@angular/forms';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-auth',
@@ -12,14 +13,15 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class AuthComponent {
-  name: string = '';
-  email: string = '';
-  password: string = '';
+  newUser:User = {name: '', surname:'', alias:'', email:'', password:''};
+  passwordConfirm: string = '';
+  loginEmail: string = '';
+  loginPassword: string = '';
 
   constructor(private authService: AuthService) { }
 
   register() {
-    this.authService.register(this.name, this.email, this.password).subscribe({
+    this.authService.register(this.newUser).subscribe({
       next: () => {
       },
       error: (err) => {
@@ -28,7 +30,7 @@ export class AuthComponent {
     });
   }
   login() {
-    this.authService.login(this.email, this.password).subscribe({
+    this.authService.login(this.loginEmail, this.loginPassword).subscribe({
       next: () => {
       },
       error: (err) => {

@@ -12,12 +12,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  register(name: string, email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}/register`, { name, email, password });
+  register(user: User): Observable<User> {
+    return this.http.post<User>(this.baseUrl+'/register', user);
 }
 
 login(email: string, password: string): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, { email, password })
+    return this.http.post<{ token: string }>(this.baseUrl+'/login', { email, password })
         .pipe(
             tap(response => {
                 this.storeToken(response.token); // Emmagatzema el token
@@ -26,15 +26,15 @@ login(email: string, password: string): Observable<any> {
 }
 
 logout() {
-    sessionStorage.removeItem(this.tokenKey); // Neteja el token
+    localStorage.removeItem(this.tokenKey); // Neteja el token
 }
 
 private storeToken(token: string) {
-    sessionStorage.setItem(this.tokenKey, token); // Emmagatzema el token en sessionStorage
+    localStorage.setItem(this.tokenKey, token); // Emmagatzema el token en localStorage
 }
 
 public getToken(): string | null {
-    return sessionStorage.getItem(this.tokenKey); // Recupera el token
+    return localStorage.getItem(this.tokenKey); // Recupera el token
 }
 
 isAuthenticated(): boolean {

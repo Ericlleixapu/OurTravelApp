@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   title = 'Travel Planner';
   isAuthenticated: boolean = false;
 	isMenuCollapsed = true;
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
 

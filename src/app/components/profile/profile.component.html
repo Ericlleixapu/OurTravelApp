@@ -1,1 +1,77 @@
-<p>profile works!</p>
+<div class="container smallContainer">
+
+    <div class="row">
+
+
+        <div class="col-md-3">
+            <img src="assets/userPlaceholder.png" class="float-end" style="border-radius: 50%; max-width: 100%;"
+                alt="...">
+        </div>
+
+        <!-- Modificar dades usuari -->
+
+        <div class="col-md-9 mb-3">
+            <h3 class="text-primary mb-3">Dades de l' usuari.</h3>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="profileInputName" class="form-label">Alies</label>
+                    <input type="text" class="form-control" id="profileInputName" name="profileAlias" [disabled]="editing"
+                        [(ngModel)]="user.alias">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="profileInputName" class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="profileInputName" name="profileName" [disabled]="editing"
+                        [(ngModel)]="user.name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md mb-3">
+                    <label for="profileInputSurname" class="form-label">Cognoms</label>
+                    <input type="text" class="form-control" id="profileInputSurname" name="profileSurname"
+                        [disabled]="editing" [(ngModel)]="user.surname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md mb-3">
+                    <label for="profileInputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="profileInputEmail" name="profileEmail"
+                        [disabled]="editing" [(ngModel)]="user.email">
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-primary me-md-2" type="button" (click)="editing = !editing">Modificar dades</button>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-primary me-md-2" type="button" (click)="updateUserProfile()">Update dades</button>
+            </div>
+
+            <!-- Modificar Password -->
+            <div class="row">
+                <div class="col-md mb-3">
+                    <label for="profileInputSurname" class="form-label">Anterior password</label>
+                    <input type="password" class="form-control" id="lastPassword" name="lastPassword" [disabled]="true"
+                        [(ngModel)]="user.surname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md mb-3">
+                    <label for="profileInputSurname" class="form-label">Nou password</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" [disabled]="true"
+                        [(ngModel)]="user.surname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md mb-3">
+                    <label for="profileInputEmail" class="form-label">Confirmació del password</label>
+                    <input type="password" class="form-control" id="newPassword2" name="newPassword2" [disabled]="true"
+                        [(ngModel)]="user.email">
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-primary me-md-2" type="button">Modificar password</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
