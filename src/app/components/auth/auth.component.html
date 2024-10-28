@@ -1,5 +1,5 @@
 <div class="container smallContainer">
-    <h3>Inici de sessió</h3>
+    <h3 class="text-primary">Inici de sessió</h3>
     <form class="form">
         <div class="row">
             <div class="mb-3">
@@ -7,18 +7,18 @@
                 <input type="email" class="form-control" id="loginInputEmail" aria-describedby="emailHelp"
                     name="loginEmail" [(ngModel)]="loginEmail">
             </div>
-            <div class="b-3">
+            <div class="mb-3">
                 <label for="loginInputPassword" class="form-label">Password</label>
                 <input type="password" class="form-control" id="loginInputPassword" name="loginPassword"
                     [(ngModel)]="loginPassword">
             </div>
-            <div class="row">
+            <div class="col-md-6">
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>
                 <div class="d-grid gap-2 d-md-flex">
-                    <button class="btn btn-primary" type="button" (click)="login()">Submit</button>
+                    <button class="btn btn-primary" type="button" (click)="login()">Inicia Sessió</button>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
 </div>
 
 <div class="container smallContainer mt-3">
-    <h3>Registrarse</h3>
+    <h3 class="text-primary">Registrarse</h3>
     <form class="form">
         <div class="row">
             <div class="col-md-12">
@@ -36,7 +36,6 @@
                             <label for="signUpInputEmail" class="form-label">Email</label>
                             <input type="email" class="form-control" id="signUpInputEmail" aria-describedby="emailHelp"
                                 name="newUserEmail" [(ngModel)]="newUser.email">
-                            <div id="emailHelp" class="form-text">Mai compartirem el email amb ningú.</div>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -76,7 +75,7 @@
                         <label class="form-check-label" for="exampleCheck1">Check me out</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" (click)="register()">Submit</button>
+                <button type="submit" class="btn btn-primary" (click)="register()">Registrarse</button>
             </div>
         </div>
     </form>

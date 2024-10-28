@@ -3,14 +3,15 @@
 
 
 $primary:#ED7D31;
-$secondary: #2AEEFA;
 
 @import '@fortawesome/fontawesome-free/css/all.css';
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
-
+.navbar{
+    opacity: 0.9;
+}
 .mainContainer{
     max-width: 90%;
     background-color: white;

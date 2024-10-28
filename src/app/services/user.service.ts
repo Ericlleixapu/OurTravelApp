@@ -25,8 +25,17 @@ export class UserService {
   // Actualitza el perfil de l'usuari
   async updateUserProfile(userData: Partial<User>): Promise<User> {
     const headers = this.getAuthHeaders();
-    return lastValueFrom(this.http.put<User>(this.baseUrl+'/profile', userData, { headers }));
+    return lastValueFrom(this.http.put<User>(this.baseUrl+'/profile', {user : userData}, { headers }));
   }
+
+    // TODO Actualitza el perfil de l'usuari
+    async updatePassword(userData: Partial<User>, oldPassword: string, newPassword: string): Promise<User> {
+      const headers = this.getAuthHeaders();
+      return lastValueFrom(this.http.put<User>(this.baseUrl+'/profile', userData, { headers }));
+    }
+    logout(){
+      this.authService.logout();
+    }
 
   // Obté els headers d'autorització amb el token
   private getAuthHeaders(): HttpHeaders {
