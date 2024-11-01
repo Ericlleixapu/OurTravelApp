@@ -4,8 +4,11 @@
 
 
         <div class="col-md-3">
-            <img src="assets/userPlaceholder.png" class="float-end" style="border-radius: 50%; max-width: 100%;"
-                alt="...">
+            <label for="inputprofileImage">
+                <img class="profile-image float-end" *ngIf="user.profileImage !=null" [src]="'http://localhost:3000/api/files/profileImage/'+user.profileImage">
+                <img class="profile-image float-end" *ngIf="user.profileImage ==null" [src]="'assets/userPlaceholder.png'">
+            </label>
+            <input id="inputprofileImage" type="file" (change)="onFileSelected($event)" style="display: none"/>
         </div>
 
         <!-- Modificar dades usuari -->
@@ -84,8 +87,8 @@
                     <button class="btn btn-secondary me-md-2" type="button" (click)="resetPassword();">Cancelar</button>
                 </div>
             </form>
-            <div class="d-grid mt-3 gap-2 d-md-flex">
-                <button class="btn btn-danger me-md-2" type="submit" (click)="logout();">Tancar sessió</button>
+            <div class="d-grid mt-4">
+                <button class="btn btn-danger" type="button" (click)="logout();">Tancar sessió</button>
             </div>
 
         </div>

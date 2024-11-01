@@ -3,6 +3,7 @@ import { User } from '../../models/user.model';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,15 +13,18 @@ import { CommonModule } from '@angular/common';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-  user: User = { name: '', surname: '', alias: '', email: '' };
-  oldUser: User = { name: '', surname: '', alias: '', email: '' };
+  user: User = {} as User;
+  oldUser: User = {} as User;
   editing = false;
   changePassword = false;
   oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
 
-  constructor(private userService: UserService) { }
+  selectedFile: File | null = null;
+  uploadResponse: any;
+
+  constructor(private userService: UserService,private uploadService: UploadService) { }
 
   ngOnInit(): void {
     this.getUserProfile();
@@ -49,12 +53,28 @@ export class ProfileComponent implements OnInit {
     if (this.newPassword !== this.confirmPassword || this.newPassword === '' || this.oldPassword === '') {
       alert('Les contrasenyes no coincideixen o no estan escrites');
     } else {
-      if (confirm('Segur que vols canviar la contrasenya?')) {
-        await this.userService.updatePassword(this.user, this.oldPassword, this.newPassword);
+      if (confirm('Segur que vols canviar la contrasenya?')) {        
+        await this.userService.updatePassword(this.oldPassword, this.newPassword);
         this.resetPassword();
       }
     }
   }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.uploadImage();
+    }
+  }
+
+  async uploadImage() {
+    if (this.selectedFile) {
+      await this.uploadService.uploadImage(this.selectedFile);
+      this.getUserProfile();
+    }
+  }
+
   logout(){
     this.userService.logout();
   }

@@ -1,10 +1,13 @@
 <div class="container mainContainer">
-    <h3 class="text-primary mb-3">Els meus viatges</h3>
+
+    <div class="row">
+        <h3 class="text-primary mb-3">Els meus viatges <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-plus"></i></button></h3> 
+    </div>
 
     <div class="row justify-content-center">
 
         <div *ngFor="let travel of travels" class="col-md-3 mb-3">
-            <div class="card travel-card dataCard" (click)="null" style="cursor: pointer;">
+            <div class="card travel-card" (click)="null">
               <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">Barcelona juny 2024</h5>
@@ -13,6 +16,15 @@
             </div>
           </div>
 
+          <div class="col-md-3 mb-3">
+            <div class="card travel-card" (click)="null">
+              <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Afegeix un nou viatge</h5>
+                <p class="card-text">Una nova aventura comença aqui.</p>
+              </div>
+            </div>
+          </div>
 
         </div>
 

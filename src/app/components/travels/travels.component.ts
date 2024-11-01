@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
 })
 export class TravelsComponent {
   constructor(){}
-  public travels = [1,2,3,4,5,6,7];
+  public travels = [1,2,3];
 
 }

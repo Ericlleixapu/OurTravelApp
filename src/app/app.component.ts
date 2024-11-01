@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet} from '@angular/router';
-import { AuthService } from './services/auth.service';
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { User } from './models/user.model';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +16,14 @@ export class AppComponent implements OnInit {
   title = 'OurTravel';
   isAuthenticated: boolean = false;
 	isMenuCollapsed = true;
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.checkAuthentication();
   }
 
   checkAuthentication(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAuthenticated = this.userService.isAuthenticated();
   }
 
 }
