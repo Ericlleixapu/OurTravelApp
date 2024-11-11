@@ -14,6 +14,7 @@ export const routes: Routes =  [
     { path: 'register', component: RegisterComponent }, // Ruta per a la pàgina de registre
     { path: 'travels', component: TravelsComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
-    { path: 'travels/:id', component: TravelComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
+    { path: 'travel/:id', component: TravelComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
+    { path: 'travel/new', component: TravelComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
     { path: '**', component:NotfoundComponent } // Redirigeix a 404 error per qualsevol ruta desconeguda
   ];

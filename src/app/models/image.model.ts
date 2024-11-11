@@ -5,5 +5,5 @@ export interface Image{
     description: string;
     owner: User | null;
     viewers?: User[];
-    uploadedAt: number;    
+    uploadedAt: Date;    
 }

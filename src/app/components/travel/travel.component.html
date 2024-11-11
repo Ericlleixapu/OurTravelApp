@@ -1,3 +1,27 @@
 <div class="container mainContainer">
     <h3 class="text-primary">TravelName</h3>
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+          <a class="nav-link {{destinations}}" (click)="changeTab('destinations')">Destinacions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{activities}}" (click)="changeTab('activities')">Activitats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{expenses}}" (click)="changeTab('expenses')">Despeses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{images}}" (click)="changeTab('images')">Imatges</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{documents}}" (click)="changeTab('documents')">Documents</a>
+        </li>
+      </ul>
+
+      <app-destinations *ngIf="destinations == 'active'"></app-destinations>
+      <app-activities *ngIf="activities == 'active'"></app-activities>
+      <app-expenses *ngIf="expenses == 'active'"></app-expenses>
+      <app-gallery *ngIf="images == 'active'"></app-gallery>
+      <app-documents *ngIf="documents == 'active'"></app-documents>
+
 </div>

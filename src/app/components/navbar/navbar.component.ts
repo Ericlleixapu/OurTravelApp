@@ -11,15 +11,10 @@ import { UserService } from '../../services/user.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit {
-  title = 'Travel Planner';
-  isAuthenticated: boolean = false;
+export class NavbarComponent {
 	isMenuCollapsed = true;
+  
   constructor(public userService: UserService, private router: Router) {}
-
-  ngOnInit(): void {
-
-  }
 
   logout(): void {
     this.userService.logout();

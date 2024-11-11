@@ -12,11 +12,11 @@
 				<li class="nav-item">
 					<a class="nav-link" [routerLink]="'/travels'" (click)="isMenuCollapsed = true">Els meus viatges</a>
 				</li>
-				<li *ngIf="userService.isAuthenticated() == false" class="nav-item">
+				<li *ngIf="!this.userService.getCurrentUser()._id" class="nav-item">
 					<a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true"> Iniciar sessió
 						<i class="fa-regular fa-user"></i></a>
 				</li>
-				<li *ngIf="userService.isAuthenticated() == true" class="nav-item">
+				<li *ngIf="this.userService.getCurrentUser()._id" class="nav-item">
 					<a class="nav-link" [routerLink]="'/profile'" (click)="isMenuCollapsed = true">{{this.userService.getCurrentUser().name}}
 
 						<img style="width: 30px;margin-left: 5px;" class="profile-image float-end"

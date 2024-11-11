@@ -19,22 +19,15 @@ export class RegisterComponent {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  register() {
-    if (this.checkData(this.newUser.email, this.newUser.password, this.passwordConfirm)) {
-      this.userService.register(this.newUser).subscribe({
-        next: () => {
-          this.router.navigate(['/travels']);
-        },
-        error: (err) => {
-          console.error(err);
-        }
-      });
+  async register() {
+    if (UserService.checkData(this.newUser.email, this.newUser.password, this.passwordConfirm)) {
+      await this.userService.register(this.newUser);
     }
   }
 
   async login() {
 
-    if (this.checkData(this.loginEmail)) {
+    if (UserService.checkData(this.loginEmail)) {
       let res = await this.userService.login(this.loginEmail, this.loginPassword);
 
       if (res.ok) {
@@ -42,27 +35,5 @@ export class RegisterComponent {
       }
     }
   }
-
-
-  checkData(email: string, pass?: string, confirm?: string,) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      alert('El correu electrònic no es correcte.');
-      return false;
-    }
-    if (pass!==null && confirm!==null) {
-      if (pass == '') {
-        alert('La contrasenya no es pot deixar en blanc.');
-        return false;
-      }
-      if (pass !== confirm) {
-        alert('Les contrasenyes no coincideixen.');
-        return false;
-      }
-    }
-    return true;
-  }
-
-
 
 }

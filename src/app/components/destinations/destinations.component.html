@@ -1,0 +1,127 @@
+<h5 class="text-primary">Destinacions <button type="button" class="btn btn-sm btn-outline-primary"
+        (click)="addNewDestination(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
+
+<div class="row justify-content">
+
+    <div *ngFor="let travel of destinations" class="col-md-2 col-md-2 mb-3">
+        <div class="card travel-card" (click)="null">
+            <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h6 class="card-title">Barcelona Spain</h6>
+                <p class="card-text">15/05/2023 - 20/05/2023</p>
+            </div>
+        </div>
+    </div>
+    <div *ngFor="let travel of destinations" class="col-md-2 col-md-2 mb-3">
+        <div class="card travel-card" (click)="null">
+            <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h6 class="card-title">Madrid Spain</h6>
+                <p class="card-text">15/05/2023 - 20/05/2023</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="destinations.length == 0" class="col-md-2 col-md-2 mb-3">
+        <div class="card travel-card" (click)="null">
+            <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h6 class="card-title">Afegeix una nova destinació</h6>
+                <p class="card-text">Algún dia - Algún altre</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<img [src]="image$ | async">
+
+
+
+<h5 class="text-primary">Trajectes <button type="button" class="btn btn-sm btn-outline-primary"
+    (click)="addNewJourney(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
+
+<div class="row justify-content">
+
+    <div *ngFor="let travel of travels" class="col-md-2 mb-3">
+        <div class="card travel-card" (click)="null">
+            <div class="card-body">
+                <h6 class="card-title">Barcelona - Madrid</h6>
+                <p class="card-text">15/05/2023</p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<h5 class="text-primary">Hotels <button type="button" class="btn btn-sm btn-outline-primary"
+    (click)="addNewHotel(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
+
+<div class="row justify-content">
+
+    <div *ngFor="let travel of hotels" class="col-md-2 mb-3">
+        <div class="card travel-card" (click)="null">
+            <div class="card-body">
+                <h6 class="card-title">Hotel Barcelona</h6>
+                <h6 class="card-title">Barcelona</h6>
+                <p class="card-text">15/05/2023 - 20/05/2023</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<ng-template #newDestinationModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Nova destinació</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container text-center">
+            <div class="row mb-3 justify-content-md-center">
+                <div class="col md-12">
+
+                    <div class="col md-12 mb-3">
+                        <label for="typeahead-basic">A quin pais vas?</label>
+                        <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="newTravel.country"
+                            [ngbTypeahead]="search" />
+                    </div>
+
+                    <div class="col md-12 mb-3">
+                        <label for="typeahead-basic">A quin pais vas?</label>
+                        <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="newTravel.country"
+                            [ngbTypeahead]="search" />
+                    </div>
+
+                    <div class="row mb-3 justify-content-md-center">
+                        <label for="travelDatepicker" class="form-label">Quins dies vas?</label>
+                        <div class="col md-12">
+                            <app-datepicker id="travelDatepicker"
+                                (selectedDates)="onDateSelection($event)"></app-datepicker>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="travelDescriptionInput" class="form-label">Alguna cosa reseñable a
+                            afegir?</label>
+                        <textarea class="form-control" id="travelDescriptionInput" name="travelDescriptionInput"
+                            [(ngModel)]="newTravel.description"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="null">Finalitzar</button>
+    </div>
+</ng-template>
