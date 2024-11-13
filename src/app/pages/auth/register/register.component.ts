@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { User } from '../../models/user.model';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/models/user.model';
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss'
 })
-export class LoginComponent {
+export class RegisterComponent {
 
   newUser: User = {} as User;
   passwordConfirm: string = '';
   loginEmail: string = '';
   loginPassword: string = '';
 
-  constructor(private userService: UserService,  private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   async register() {
     if (UserService.checkData(this.newUser.email, this.newUser.password, this.passwordConfirm)) {
@@ -35,6 +35,5 @@ export class LoginComponent {
       }
     }
   }
-
 
 }

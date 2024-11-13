@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Travel } from '../../models/travel.model';
-import { UserService } from '../../services/user.service';
+import { Travel } from '../../../core/models/travel.model';
+import { UserService } from '../../../core/services/user.service';
 import { NgbModal, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-import { DatepickerComponent } from '../datepicker/datepicker.component';
 import { debounceTime, distinctUntilChanged, from, map, Observable, OperatorFunction } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { TravelService } from '../../services/travel.service';
+import { TravelService } from '../../../core/services/travel.service';
 import { RouterLink } from '@angular/router';
+import { DatepickerComponent } from '../../../shared/components/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-destinations',

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Travel } from '../../models/travel.model';
-import { TravelService } from '../../services/travel.service';
 import { RouterLink } from '@angular/router';
+import { TravelService } from '../../core/services/travel.service';
 
 @Component({
   selector: 'app-travels',
@@ -14,7 +13,8 @@ import { RouterLink } from '@angular/router';
 export class TravelsComponent {
 
   public travels = [1, 2, 3];
-  constructor(private travelService:TravelService) { 
+  constructor(private travelService:TravelService
+  ) { 
   }
   
 

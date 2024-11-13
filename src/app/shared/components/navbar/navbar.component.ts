@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-navbar',

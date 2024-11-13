@@ -10,7 +10,6 @@ import { AuthService } from './auth.service';
 export class UserService {
   private baseUrl = 'http://localhost:3000/api/users';
   private currentUser: User = {} as User;
-  private tokenKey = 'authToken'; // Clau per emmagatzemar el token
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

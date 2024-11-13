@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user.model';
+import { User } from '../../core/models/user.model';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../core/services/user.service';
 import { CommonModule } from '@angular/common';
-import { UploadService } from '../../services/upload.service';
+import { UploadService } from '../../core/services/upload.service';
 
 @Component({
   selector: 'app-profile',

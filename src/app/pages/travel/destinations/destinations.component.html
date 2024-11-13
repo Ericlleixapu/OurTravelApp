@@ -35,9 +35,6 @@
 </div>
 
 
-<img [src]="image$ | async">
-
-
 
 <h5 class="text-primary">Trajectes <button type="button" class="btn btn-sm btn-outline-primary"
     (click)="addNewJourney(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
@@ -104,7 +101,7 @@
                     <div class="row mb-3 justify-content-md-center">
                         <label for="travelDatepicker" class="form-label">Quins dies vas?</label>
                         <div class="col md-12">
-                            <app-datepicker id="travelDatepicker"
+                            <app-datepicker id="travelDatepicker"s
                                 (selectedDates)="onDateSelection($event)"></app-datepicker>
                         </div>
                     </div>

@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component} from '@angular/core';
-import { DestinationsComponent } from "../destinations/destinations.component";
-import { ActivitiesComponent } from "../activities/activities.component";
+import { DestinationsComponent } from '../destinations/destinations.component';
+import { ActivitiesComponent } from '../activities/activities.component';
+import { ExpensesComponent } from '../expenses/expenses.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { DocumentsComponent } from '../documents/documents.component';
-import { ExpensesComponent } from '../expenses/expenses.component';
 
 @Component({
-  selector: 'app-travel',
+  selector: 'app-travel-page',
   standalone: true,
   imports: [CommonModule, DestinationsComponent, ActivitiesComponent, ExpensesComponent,GalleryComponent,DocumentsComponent],
   templateUrl: './travel.component.html',
   styleUrl: './travel.component.scss'
 })
-export class TravelComponent{
+export class TravelPageComponent{
 
   destinations: string = 'active';
   activities: string = 'inactive';
