@@ -6,20 +6,17 @@ import { NgbModal, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged, from, map, Observable, OperatorFunction } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { TravelService } from '../../../core/services/travel.service';
-import { RouterLink } from '@angular/router';
 import { DatepickerComponent } from '../../../shared/components/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-destinations',
   standalone: true,
-  imports: [CommonModule, DatepickerComponent,FormsModule,NgbTypeaheadModule,RouterLink],
+  imports: [CommonModule, DatepickerComponent,FormsModule,NgbTypeaheadModule],
   templateUrl: './destinations.component.html',
   styleUrl: './destinations.component.scss'
 })
 export class DestinationsComponent implements OnInit{
 
-  public newTravel: Travel = {} as Travel;
-  public travelTypes = Travel.getTypes();
   public newDestination = {country: "", dateFrom: null, dateTo: null};
 
   public destinations = [1];
@@ -33,11 +30,7 @@ export class DestinationsComponent implements OnInit{
   constructor(private travelService:TravelService, private userService: UserService, private modalService: NgbModal) { 
   }
   ngOnInit(): void {
-    
-    this.newTravel = new Travel(this.userService.getCurrentUser());
 
-    
-      this.image$ = this.travelService.getImage();
     
   }
 
@@ -52,8 +45,6 @@ export class DestinationsComponent implements OnInit{
   }
 
   onDateSelection(dates: { from: Date, to: Date }) {
-    this.newTravel.dateFrom = dates.from;
-    this.newTravel.dateTo = dates.to;
   }
 
   public country:string="Spain";

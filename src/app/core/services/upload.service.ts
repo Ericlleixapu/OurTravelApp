@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class UploadService {
-  private apiUrl = 'http://localhost:3000/api/files/';
+  private apiUrl = 'http://localhost:3000/api/file/';
 
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();

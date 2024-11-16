@@ -5,8 +5,8 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { TravelsComponent } from './pages/travels/travels.component';
-import { TravelPageComponent } from './pages/destinations/travel-page/travel.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { TravelPageComponent } from './pages/travel/travel-page/travel-page.component';
 
 export const routes: Routes =  [
     { path: '', component: HomeComponent }, // Ruta per a la pàgina d'inici
@@ -14,7 +14,6 @@ export const routes: Routes =  [
     { path: 'register', component: RegisterComponent }, // Ruta per a la pàgina de registre
     { path: 'travels', component: TravelsComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
-    { path: 'travel/:id', component: TravelPageComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
-    { path: 'travel/new', component: TravelPageComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
+    { path: 'travel', component: TravelPageComponent, canActivate: [AuthGuard] }, // Ruta per a la gestió de viatges, protegida per AuthGuard
     { path: '**', component:NotfoundComponent } // Redirigeix a 404 error per qualsevol ruta desconeguda
   ];

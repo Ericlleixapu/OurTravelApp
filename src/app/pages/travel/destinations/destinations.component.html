@@ -88,14 +88,14 @@
 
                     <div class="col md-12 mb-3">
                         <label for="typeahead-basic">A quin pais vas?</label>
-                        <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="newTravel.country"
+                        <input id="typeahead-basic" type="text" class="form-control" 
                             [ngbTypeahead]="search" />
                     </div>
 
                     <div class="col md-12 mb-3">
-                        <label for="typeahead-basic">A quin pais vas?</label>
-                        <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="newTravel.country"
-                            [ngbTypeahead]="search" />
+                        <label for="typeahead-basic">On vas?</label>
+                        <input id="typeahead-basic" type="text" class="form-control" 
+                            [ngbTypeahead]="search" placeholder="Ex: Barcelona"/>
                     </div>
 
                     <div class="row mb-3 justify-content-md-center">
@@ -110,7 +110,7 @@
                         <label for="travelDescriptionInput" class="form-label">Alguna cosa reseñable a
                             afegir?</label>
                         <textarea class="form-control" id="travelDescriptionInput" name="travelDescriptionInput"
-                            [(ngModel)]="newTravel.description"></textarea>
+                            ></textarea>
                     </div>
                 </div>
 

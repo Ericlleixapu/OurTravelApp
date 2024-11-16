@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { CommonModule } from '@angular/common';
 import { UploadService } from '../../core/services/upload.service';
-
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -13,6 +12,7 @@ import { UploadService } from '../../core/services/upload.service';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
+
   user: User = {} as User;
   oldUser: User = {} as User;
   editing = false;

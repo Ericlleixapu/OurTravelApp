@@ -2,23 +2,27 @@
 
   <div class="row">
     <h3 class="text-primary mb-3">Els meus viatges <button type="button" class="btn btn-outline-primary"
-        [routerLink]="'/travel/new'"><i class="fa-regular fa-plus"></i></button></h3>
+        [routerLink]="'/travel'"  (click)="createTravel()"><i class="fa-regular fa-plus"></i></button></h3>
   </div>
 
   <div class="row justify-content-center">
 
     <div *ngFor="let travel of travels" class="col-md-3 mb-3">
-      <div class="card travel-card" (click)="null">
+      <div class="card travel-card" (click)="null" (click)="goToTravel(travel)">
         <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
+        <div class="position-absolute top-0 end-0" style="padding:0.5em">
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="removeTravel(travel._id)">Eliminar</button>
+        </div>
+
         <div class="card-body">
-          <h5 class="card-title">Barcelona juny 2024</h5>
-          <p class="card-text">This is a longer card with supporting text</p>
+          <h5 class="card-title">{{travel.name}}</h5>
+          <p class="card-text">15/05/2023 - 20/05/2023</p>
         </div>
       </div>
     </div>
 
     <div class="col-md-3 mb-3">
-      <div class="card travel-card" [routerLink]="'/travel/new'">
+      <div class="card travel-card" [routerLink]="'/travel'" (click)="createTravel()">
         <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Afegeix un nou viatge</h5>

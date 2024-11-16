@@ -2,45 +2,61 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Travel } from '../models/travel.model';
 import { AuthService } from './auth.service';
-import { map, Observable } from 'rxjs';
+import { lastValueFrom, map, Observable } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root'
 })
 export class TravelService {
-    private baseUrl = 'http://localhost:3000/api/travels';
+	private baseUrl = 'http://localhost:3000/api/travel';
+	private travel = {} as Travel;
 
-    constructor(private http: HttpClient, private authService: AuthService) {}
+	constructor(private http: HttpClient, private authService: AuthService) { }
 
-    private getHeaders(): HttpHeaders {
-        const token = this.authService.getToken();
-        return new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-        });
-    }
+	async getTravels(): Promise<Travel[]> {
+		const headers = this.getAuthHeaders();
+		let res = await lastValueFrom(this.http.get<Travel[]>(this.baseUrl, { headers }));
 
-    getTravels(): Observable<Travel[]> {
-        return this.http.get<Travel[]>(this.baseUrl, { headers: this.getHeaders() });
-    }
+		return res;
+	}
 
-    createTravel(travel: Travel): Observable<Travel> {
-        return this.http.post<Travel>(this.baseUrl, travel, { headers: this.getHeaders() });
-    }
+	async createTravel(): Promise<Travel> {
+		const headers = this.getAuthHeaders();
+		let res = await lastValueFrom(this.http.post<{message:String,travel:Travel}>(this.baseUrl, {}, { headers }));
+		this.travel = res.travel;
+		return this.travel;
+	}
 
-    public getCountryList(): string[] {
-        return countryList;
-    }
+	async removeTravel(_id: string){
+		const headers = this.getAuthHeaders();
+		this.travel = await lastValueFrom(this.http.delete<Travel>(this.baseUrl+'/'+_id, { headers }));
+	}
 
+	setTravel (travel:Travel){
+		this.travel = travel;
+	}
+	getTravel(): Travel {
+		return this.travel;
+	}
 
-	
+	public getCountryList(): string[] {
+		return countryList;
+	}
+
 	public getImage(): Observable<string> {
 		return this.http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyC9I6QsbPJLoIfVXx3V4kywGLxsYblbrhU&cx=a5e4686f379c243b5&searchType=image&q=pulau+besar")
-		  .pipe(
-			map((response: any) => response.url)
-		  );
+			.pipe(
+				map((response: any) => response.url)
+			);
+	}
+
+	private getAuthHeaders(): HttpHeaders {
+		const token = this.authService.getToken();
+		return new HttpHeaders({
+		  'Authorization': 'Bearer ' + token
+		});
 	  }
 
-	  
 
 }
 

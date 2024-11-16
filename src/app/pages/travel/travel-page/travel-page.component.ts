@@ -10,8 +10,8 @@ import { DocumentsComponent } from '../documents/documents.component';
   selector: 'app-travel-page',
   standalone: true,
   imports: [CommonModule, DestinationsComponent, ActivitiesComponent, ExpensesComponent,GalleryComponent,DocumentsComponent],
-  templateUrl: './travel.component.html',
-  styleUrl: './travel.component.scss'
+  templateUrl: './travel-page.component.html',
+  styleUrl: './travel-page.component.scss'
 })
 export class TravelPageComponent{
 

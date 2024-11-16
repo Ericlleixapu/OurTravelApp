@@ -10,7 +10,7 @@
 
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" [routerLink]="'/travels'" (click)="isMenuCollapsed = true">Els meus viatges</a>
+					<a class="nav-link" [routerLink]="'/travels'" (click)="isMenuCollapsed = true">Els meus viatges <i class="fa-solid fa-earth-europe"></i></a>
 				</li>
 				<li *ngIf="!this.userService.getCurrentUser()._id" class="nav-item">
 					<a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true"> Iniciar sessió
@@ -21,7 +21,7 @@
 
 						<img style="width: 30px;margin-left: 5px;" class="profile-image float-end"
 						*ngIf="this.userService.getCurrentUser().profileImage !=null"
-						[src]="'http://localhost:3000/api/files/profileImage/'+this.userService.getCurrentUser().profileImage">
+						[src]="this.userService.getCurrentUser().profileImageUrl">
 					<img  style="width: 30px;margin-left: 5px;" class="profile-image float-end" *ngIf="this.userService.getCurrentUser().profileImage ==null"
 						[src]="'assets/userPlaceholder.png'">
 
