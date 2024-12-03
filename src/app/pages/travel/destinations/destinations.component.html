@@ -1,79 +1,31 @@
 <h5 class="text-primary">Destinacions <button type="button" class="btn btn-sm btn-outline-primary"
-        (click)="addNewDestination(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
+        (click)="openDestinationModal(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
 
 <div class="row justify-content">
 
-    <div *ngFor="let travel of destinations" class="col-md-2 col-md-2 mb-3">
-        <div class="card travel-card" (click)="null">
+    <div *ngFor="let destination of destinations" class="col-md-2 col-md-2 mb-3">
+        <div class="card travel-card" (click)="openDestinationModal(newDestinationModal,destination)">
             <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
+
+            <!-- <img *ngIf="destination.imageUrl !=null" [src]="destination.imageUrl">
+            <img *ngIf="destination.imageUrl ==null" [src]="'assets/userPlaceholder.png'"> -->
             <div class="card-body">
-                <h6 class="card-title">Barcelona Spain</h6>
-                <p class="card-text">15/05/2023 - 20/05/2023</p>
-            </div>
-        </div>
-    </div>
-    <div *ngFor="let travel of destinations" class="col-md-2 col-md-2 mb-3">
-        <div class="card travel-card" (click)="null">
-            <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h6 class="card-title">Madrid Spain</h6>
-                <p class="card-text">15/05/2023 - 20/05/2023</p>
+                <h5 class="card-title">{{destination.country}}</h5>
+                <h6 class="card-title">{{destination.location}}</h6>
+                <p class="card-text">{{destination.dateFrom | date: 'dd/MM/yyyy'}} - {{destination.dateTo | date: 'dd/MM/yyyy'}}</p>
             </div>
         </div>
     </div>
 
-    <div *ngIf="destinations.length == 0" class="col-md-2 col-md-2 mb-3">
-        <div class="card travel-card" (click)="null">
-            <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h6 class="card-title">Afegeix una nova destinació</h6>
-                <p class="card-text">Algún dia - Algún altre</p>
-            </div>
-        </div>
+    <div *ngIf="destinations.length == 0">
+        <div class="alert alert-primary" role="alert">
+            Encara res per aqui.
+          </div>
     </div>
-
 </div>
 
-
-
-<h5 class="text-primary">Trajectes <button type="button" class="btn btn-sm btn-outline-primary"
-    (click)="addNewJourney(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
-
-<div class="row justify-content">
-
-    <div *ngFor="let travel of travels" class="col-md-2 mb-3">
-        <div class="card travel-card" (click)="null">
-            <div class="card-body">
-                <h6 class="card-title">Barcelona - Madrid</h6>
-                <p class="card-text">15/05/2023</p>
-            </div>
-        </div>
-    </div>
-
-
-</div>
-
-
-<h5 class="text-primary">Hotels <button type="button" class="btn btn-sm btn-outline-primary"
-    (click)="addNewHotel(newDestinationModal)"><i class="fa-regular fa-plus"></i></button></h5>
-
-<div class="row justify-content">
-
-    <div *ngFor="let travel of hotels" class="col-md-2 mb-3">
-        <div class="card travel-card" (click)="null">
-            <div class="card-body">
-                <h6 class="card-title">Hotel Barcelona</h6>
-                <h6 class="card-title">Barcelona</h6>
-                <p class="card-text">15/05/2023 - 20/05/2023</p>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-
-
+<app-journeys></app-journeys>
+<app-hotels></app-hotels>
 
 <ng-template #newDestinationModal let-modal>
     <div class="modal-header">
@@ -89,19 +41,19 @@
                     <div class="col md-12 mb-3">
                         <label for="typeahead-basic">A quin pais vas?</label>
                         <input id="typeahead-basic" type="text" class="form-control" 
-                            [ngbTypeahead]="search" />
+                            [ngbTypeahead]="search" [(ngModel)]="selectedDestination.country"/>
                     </div>
 
                     <div class="col md-12 mb-3">
                         <label for="typeahead-basic">On vas?</label>
                         <input id="typeahead-basic" type="text" class="form-control" 
-                            [ngbTypeahead]="search" placeholder="Ex: Barcelona"/>
+                             placeholder="Ex: Barcelona" [(ngModel)]="selectedDestination.location"/>
                     </div>
 
                     <div class="row mb-3 justify-content-md-center">
                         <label for="travelDatepicker" class="form-label">Quins dies vas?</label>
                         <div class="col md-12">
-                            <app-datepicker id="travelDatepicker"s
+                            <app-datepicker id="travelDatepicker" [from]="selectedDestination.dateFrom" [to]="selectedDestination.dateTo"
                                 (selectedDates)="onDateSelection($event)"></app-datepicker>
                         </div>
                     </div>
@@ -119,6 +71,9 @@
 
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" (click)="null">Finalitzar</button>
+        <button *ngIf="selectedDestination._id" type="submit" class="btn btn-danger" (click)="removeDestination();modal.close('Close click')">Eliminar</button>
+        <button *ngIf="!selectedDestination._id" type="submit" class="btn btn-primary" (click)="addNewDestination()">Guardar</button>
+        <button *ngIf="selectedDestination._id" type="submit" class="btn btn-primary" (click)="updateDestination()">Guardar</button>
+        <button type="submit" class="btn btn-secondary" (click)="modal.close('Close click')">Tanca</button>
     </div>
 </ng-template>

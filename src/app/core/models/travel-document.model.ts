@@ -1,5 +1,5 @@
 export interface TravelDocument {
-    id?: string
+    _id?: string
     name: string
     description: string
     travelId: string

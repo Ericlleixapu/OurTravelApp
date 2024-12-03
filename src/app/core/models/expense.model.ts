@@ -1,5 +1,5 @@
 export interface Expense {
-    id?: string
+    _id?: string
     name: string
     amount: number
     travelId: string

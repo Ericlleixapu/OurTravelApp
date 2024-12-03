@@ -9,6 +9,8 @@ $primary: #ED7D31;
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
+@import 'ngx-toastr/toastr';
+
 .navbar {
     opacity: 0.9;
 }

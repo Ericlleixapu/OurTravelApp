@@ -1,0 +1,164 @@
+<h5 class="text-primary">Trajectes <button type="button" class="btn btn-sm btn-outline-primary"
+        (click)="openAddNewJourney(newJourneyModal)"><i class="fa-regular fa-plus"></i></button></h5>
+
+<div class="row justify-content">
+
+    <div *ngFor="let journey of journeys" class="col-md-2 mb-3">
+        <div class="card travel-card" (click)="openAddNewJourney(newJourneyModal,journey)">
+            <i class="fa fa-{{journey.journeyType}} fa-3x card-img-top text-primary" style="margin: 0.1em;"
+                aria-hidden="true"></i>
+            <div class="card-body">
+                <h6 class="card-title">{{journey.from?.location||'Casa'}} - {{journey.to?.location||'Casa'}}</h6>
+                <p class="card-text">{{journey.dateTimeFrom | date:'d/M/yy H:mm'}} - {{journey.dateTimeTo |
+                    date:'d/M/yy H:mm'}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="journeys.length == 0">
+        <div class="alert alert-primary" role="alert">
+            Encara res per aqui.
+        </div>
+    </div>
+
+</div>
+
+<ng-template #newJourneyModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Nou trajecte</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container text-center">
+
+            <div class="row mb-3 justify-content-md-center">
+                <div class="col md-12">
+
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check"
+                            [checked]="selectedJourney.journeyType == JourneyType.Flight" name="btnradio"
+                            id="btnradioFlight" autocomplete="off"
+                            (click)="selectedJourney.journeyType =JourneyType.Flight">
+                        <label class="btn btn-outline-primary" for="btnradioFlight">Avió <i class="fa fa-plane"
+                                aria-hidden="true"></i></label>
+
+                        <input type="radio" class="btn-check"
+                            [checked]="selectedJourney.journeyType == JourneyType.Train" name="btnradio"
+                            id="btnradioTrain" autocomplete="off"
+                            (click)="selectedJourney.journeyType =JourneyType.Train">
+                        <label class="btn btn-outline-primary" for="btnradioTrain">Tren <i class="fa fa-train"
+                                aria-hidden="true"></i></label>
+
+                        <input type="radio" class="btn-check" [checked]="selectedJourney.journeyType == JourneyType.Bus"
+                            name="btnradio" id="btnradioBus" autocomplete="off"
+                            (click)="selectedJourney.journeyType =JourneyType.Bus">
+                        <label class="btn btn-outline-primary" for="btnradioBus">Bus <i class="fa fa-bus"
+                                aria-hidden="true"></i></label>
+
+                        <input type="radio" class="btn-check"
+                            [checked]="selectedJourney.journeyType == JourneyType.Boat" name="btnradio"
+                            id="btnradioBoat" autocomplete="off"
+                            (click)="selectedJourney.journeyType =JourneyType.Boat">
+                        <label class="btn btn-outline-primary" for="btnradioBoat">Vaixell <i class="fa fa-ship"
+                                aria-hidden="true"></i></label>
+
+                        <input type="radio" class="btn-check" [checked]="selectedJourney.journeyType == JourneyType.Car"
+                            name="btnradio" id="btnradioCar" autocomplete="off"
+                            (click)="selectedJourney.journeyType =JourneyType.Car">
+                        <label class="btn btn-outline-primary" for="btnradioCar">Cotxe <i class="fa fa-car"
+                                aria-hidden="true"></i></label>
+
+                        <input type="radio" class="btn-check"
+                            [checked]="selectedJourney.journeyType == JourneyType.Other" name="btnradio"
+                            id="btnradioOther" autocomplete="off"
+                            (click)="selectedJourney.journeyType =JourneyType.Other">
+                        <label class="btn btn-outline-primary" for="btnradioOther">Altres <i
+                                class="fa fa-shuttle-space"></i></label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 justify-content-md-center">
+                <div class="col md-6">
+                    <label for="typeahead-basic">Lloc de partida</label>
+                    <input id="typeahead-basic" type="text" class="form-control" placeholder="Ex: Aeroport de Barcelona"
+                        [(ngModel)]="selectedJourney.locationFrom" />
+                </div>
+                <div class="col md-6">
+                    <label for="typeahead-basic">Lloc de destí</label>
+                    <input type="text" class="form-control" placeholder="Ex: Aeroport de Madrid"
+                        [(ngModel)]="selectedJourney.locationTo" />
+                </div>
+            </div>
+
+            <div class="row mb-3 justify-content-md-center">
+                <div class="col md-6">
+                    <div class="form-floating">
+                        <select class="form-select" id="fromDestination" aria-label="Destinació origen"
+                            [(ngModel)]="selectedJourney.from">
+                            <option [value]="null" selected>Casa</option>
+                            <option *ngFor="let destination of destinations" [value]="destination._id">
+                                {{destination.country}} {{destination.location}}</option>
+                        </select>
+                        <label for="parentCategory">Origen</label>
+                    </div>
+                </div>
+                <div class="col md-6">
+
+                    <div class="form-floating">
+                        <select class="form-select" id="toDestination" aria-label="Destinació destí"
+                            [(ngModel)]="selectedJourney.to">
+                            <option [value]="null" selected>Casa</option>
+                            <option *ngFor="let destination of destinations" [value]="destination._id">
+                                {{destination.country}} {{destination.location}}</option>
+                        </select>
+                        <label for="parentCategory">Destí</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class="col-6 mb-3">
+                    <h6>Data de sortida</h6>
+                    <div class="input-group">
+                        <input class="form-control" [weekdays]="false" placeholder="yyyy-mm-dd" name="dp"
+                            [(ngModel)]="dateFrom" (ngModelChange)="setDataArribada()" ngbDatepicker
+                            #dateFromButton="ngbDatepicker" />
+                        <button class="btn btn-outline-secondary" id="dateFromButton" (click)="dateFromButton.toggle()"
+                            type="button"><i class="fa fa-calendar-days" aria-hidden="true"></i></button>
+                    </div>
+                    <ngb-timepicker [(ngModel)]="timeFrom" [ngModelOptions]="{standalone: true}" />
+                </div>
+                <div class="col-6">
+                    <h6>Data d' arribada</h6>
+                    <div class="input-group">
+                        <input class="form-control" [weekdays]="false" placeholder="yyyy-mm-dd" name="dp"
+                            [(ngModel)]="dateTo" ngbDatepicker #dateToButton="ngbDatepicker" />
+                        <button class="btn btn-outline-secondary" id="dateToButton" (click)="dateToButton.toggle()"
+                            type="button"><i class="fa fa-calendar-days" aria-hidden="true"></i></button>
+                    </div>
+                    <ngb-timepicker [(ngModel)]="timeTo" [ngModelOptions]="{standalone: true}" />
+                </div>
+            </div>
+
+        </div>
+        <div class="row mb-3 justify-content-md-center">
+            <div class="col md-12 mb-3">
+                <label for="typeahead-basic">Comentaris adicionals</label>
+                <textarea id="typeahead-basic" type="text" class="form-control"
+                    [(ngModel)]="selectedJourney.comment" ></textarea>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="selectedJourney._id" type="submit" class="btn btn-danger"
+            (click)="removeJourney();modal.close('Close click')">Eliminar</button>
+        <button *ngIf="!selectedJourney._id" type="submit" class="btn btn-primary"
+            (click)="addNewJourney()">Guardar</button>
+        <button *ngIf="selectedJourney._id" type="submit" class="btn btn-primary"
+            (click)="updateJourney()">Guardar</button>
+        <button type="submit" class="btn btn-secondary" (click)="modal.close('Close click')">Tanca</button>
+    </div>
+</ng-template>

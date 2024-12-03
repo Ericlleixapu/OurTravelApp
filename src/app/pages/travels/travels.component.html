@@ -11,7 +11,7 @@
       <div class="card travel-card" (click)="null" (click)="goToTravel(travel)">
         <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
         <div class="position-absolute top-0 end-0" style="padding:0.5em">
-          <button type="button" class="btn btn-outline-primary btn-sm" (click)="removeTravel(travel._id)">Eliminar</button>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="removeTravelModal(travel._id,deleteModal)">Eliminar</button>
         </div>
 
         <div class="card-body">
@@ -34,3 +34,23 @@
   </div>
 
 </div>
+
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title text-primary">Eliminar viatge <b class="text-danger"></b>
+      </h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="remove = '';modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+      <p>Estas segur que vols eliminar el viatge
+          <b class="text-danger">  </b>
+          ? es perdràn totes les imatges i documents relacionats amb aquest viatge, aquest canvi no es pot desfer.
+      </p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="removeTravel();modal.dismiss('Cross click')">Eliminar <i
+              class="bi bi-trash3-fill"></i></button>
+      <button type="button" class="btn btn-secondary" (click)="remove = '';modal.close('Close click')">Cancel·lar</button>
+  </div>
+</ng-template>

@@ -19,7 +19,7 @@ export class Travel {
     images: Image[];
     documents: TravelDocument[];
     members: User[];
-    createdBy: User;
+    owner: User;
     dateFrom?: Date|null; 
     dateTo?: Date|null;
     createdOn: Date;
@@ -35,7 +35,7 @@ export class Travel {
         this.documents=[];
         this.members=[];
         this.members.push(user);
-        this.createdBy=user;
+        this.owner=user;
         this.createdOn=new Date();
     }
 

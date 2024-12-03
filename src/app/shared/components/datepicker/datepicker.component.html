@@ -1,7 +1,8 @@
 
-<ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" [weekdays]="false" />
+<ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" [weekdays]="false" 
+[startDate]="startDay" />
 
-<ng-template #t let-date let-focused="focused">
+<ng-template #t let-date let-focused="focused" >
 	<span
 		class="custom-day"
 		[class.focused]="focused"

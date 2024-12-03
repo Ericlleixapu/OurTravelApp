@@ -1,0 +1,49 @@
+
+<h5 class="text-primary">Hotels <button type="button" class="btn btn-sm btn-outline-primary"
+    (click)="openAddNewHotel(newHotelModal)"><i class="fa-regular fa-plus"></i></button></h5>
+
+<div class="row justify-content">
+
+    <div *ngFor="let hotel of hotels" class="col-md-2 mb-3">
+        <div class="card travel-card" (click)="null">
+            <div class="card-body">
+                <h6 class="card-title">Hotel Barcelona</h6>
+                <h6 class="card-title">Barcelona</h6>
+                <p class="card-text">15/05/2023 - 20/05/2023</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="hotels.length == 0">
+        <div class="alert alert-primary" role="alert">
+            Encara res per aqui.
+          </div>
+    </div>
+</div>
+
+<ng-template #newHotelModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Nova destinació</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container text-center">
+            <div class="row mb-3 justify-content-md-center">
+                <div class="col md-12">
+
+                    
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="selectedHotel._id" type="submit" class="btn btn-danger" (click)="removeHotel();modal.close('Close click')">Eliminar</button>
+        <button *ngIf="!selectedHotel._id" type="submit" class="btn btn-primary" (click)="addNewHotel()">Guardar</button>
+        <button *ngIf="selectedHotel._id" type="submit" class="btn btn-primary" (click)="updateHotel()">Guardar</button>
+        <button type="submit" class="btn btn-secondary" (click)="modal.close('Close click')">Tanca</button>
+    </div>
+</ng-template>

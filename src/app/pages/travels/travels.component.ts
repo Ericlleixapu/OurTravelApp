@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { TravelService } from '../../core/services/travel.service';
 import { Travel } from '../../core/models/travel.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-travels',
   standalone: true,
@@ -13,8 +14,8 @@ import { Travel } from '../../core/models/travel.model';
 export class TravelsComponent implements OnInit {
 
   public travels: Travel[] = [];
-  public remove = false;
-  constructor(private travelService: TravelService, private router: Router
+  public remove = '';
+  constructor(private travelService: TravelService, private router: Router, private modalService: NgbModal
   ) { }
 
   async ngOnInit() {
@@ -28,17 +29,20 @@ export class TravelsComponent implements OnInit {
   }
 
   goToTravel(travel: Travel) {
-    if (this.remove==false) {
+    if (this.remove=='') {
       this.travelService.setTravel(travel);
       this.router.navigate(['travel']);
     }
-    this.remove = false;
   }
 
-  async removeTravel(_id: string) {
-    this.remove = true;
-    await this.travelService.removeTravel(_id);
+  async removeTravelModal(_id: string, deleteModal: TemplateRef<any>) {    
+    this.remove = _id;
+    this.modalService.open(deleteModal, { centered: true, backdrop: 'static' });
+  }
+  async removeTravel() {
+    await this.travelService.removeTravel(this.remove);
     this.travels = await this.travelService.getTravels();
+    this.remove = '';
   }
 
 }
