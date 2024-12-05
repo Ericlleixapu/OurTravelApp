@@ -8,6 +8,9 @@ import { DocumentsComponent } from '../documents/documents.component';
 import { TravelService } from '../../../core/services/travel.service';
 import { Router } from '@angular/router';
 import { Travel } from '../../../core/models/travel.model';
+import { DestinationService } from '../../../core/services/destination.service';
+import { JourneyService } from '../../../core/services/journey.service';
+import { HotelService } from '../../../core/services/hotel.service';
 
 @Component({
   selector: 'app-travel-page',
@@ -24,16 +27,30 @@ export class TravelPageComponent implements OnInit {
   images: string = 'inactive';
   documents: string = 'inactive';
 
-  travel:Travel = {} as Travel;
+  travel: Travel = {} as Travel;
+  ready: boolean = false;
 
-  constructor(private travelService: TravelService, private router: Router) { }
+  constructor(
+    private travelService: TravelService,
+    private destinationService: DestinationService,
+    private journeyService: JourneyService,
+    private hotelService: HotelService,
+    private router: Router
+  ) { }
 
 
-  ngOnInit() {
-    if (!this.travelService.getTravel()) {
-      this.router.navigate(['travels']);
-    }
+  async ngOnInit() {
     this.travel = this.travelService.getTravel();
+
+    if (!this.travel._id) {
+      await this.travelService.createTravel();
+      this.travel = this.travelService.getTravel();
+    }else{
+      this.travel.destinations = await this.destinationService.getDestinationsByTravel(this.travel._id);
+      this.travel.journeys = await this.journeyService.getJourneysByTravel(this.travel._id);
+      this.travel.hotels = await this.hotelService.getHotelsByTravel(this.travel._id);
+    }
+    this.ready = true;
   }
 
   changeTab(tab: string) {

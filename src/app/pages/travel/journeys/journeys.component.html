@@ -8,7 +8,8 @@
             <i class="fa fa-{{journey.journeyType}} fa-3x card-img-top text-primary" style="margin: 0.1em;"
                 aria-hidden="true"></i>
             <div class="card-body">
-                <h6 class="card-title">{{journey.from?.location||'Casa'}} - {{journey.to?.location||'Casa'}}</h6>
+                <h6 class="card-title">{{journey.from?.location||'Casa'}} -</h6>
+                <h6 class="card-title">{{journey.to?.location||'Casa'}}</h6>
                 <p class="card-text">{{journey.dateTimeFrom | date:'d/M/yy H:mm'}} - {{journey.dateTimeTo |
                     date:'d/M/yy H:mm'}}</p>
             </div>
@@ -96,9 +97,9 @@
                 <div class="col md-6">
                     <div class="form-floating">
                         <select class="form-select" id="fromDestination" aria-label="Destinació origen"
-                            [(ngModel)]="selectedJourney.from">
+                            [(ngModel)]="selectedJourney.from" (ngModelChange)="setDates()" [compareWith]="compareFn">
                             <option [value]="null" selected>Casa</option>
-                            <option *ngFor="let destination of destinations" [value]="destination._id">
+                            <option *ngFor="let destination of destinations" [ngValue]="destination">
                                 {{destination.country}} {{destination.location}}</option>
                         </select>
                         <label for="parentCategory">Origen</label>
@@ -108,9 +109,9 @@
 
                     <div class="form-floating">
                         <select class="form-select" id="toDestination" aria-label="Destinació destí"
-                            [(ngModel)]="selectedJourney.to">
+                            [(ngModel)]="selectedJourney.to" (ngModelChange)="setDates()" [compareWith]="compareFn">
                             <option [value]="null" selected>Casa</option>
-                            <option *ngFor="let destination of destinations" [value]="destination._id">
+                            <option *ngFor="let destination of destinations" [ngValue]="destination">
                                 {{destination.country}} {{destination.location}}</option>
                         </select>
                         <label for="parentCategory">Destí</label>
@@ -147,7 +148,7 @@
             <div class="col md-12 mb-3">
                 <label for="typeahead-basic">Comentaris adicionals</label>
                 <textarea id="typeahead-basic" type="text" class="form-control"
-                    [(ngModel)]="selectedJourney.comment" ></textarea>
+                    [(ngModel)]="selectedJourney.comment"></textarea>
             </div>
         </div>
 

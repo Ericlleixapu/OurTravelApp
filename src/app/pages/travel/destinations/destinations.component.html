@@ -41,13 +41,13 @@
                     <div class="col md-12 mb-3">
                         <label for="typeahead-basic">A quin pais vas?</label>
                         <input id="typeahead-basic" type="text" class="form-control" 
-                            [ngbTypeahead]="search" [(ngModel)]="selectedDestination.country"/>
+                            [ngbTypeahead]="searchCountry" [(ngModel)]="selectedDestination.country" (change)="getCities()"/>
                     </div>
 
                     <div class="col md-12 mb-3">
                         <label for="typeahead-basic">On vas?</label>
                         <input id="typeahead-basic" type="text" class="form-control" 
-                             placeholder="Ex: Barcelona" [(ngModel)]="selectedDestination.location"/>
+                        [ngbTypeahead]="searchCity" placeholder="Ex: Barcelona" [(ngModel)]="selectedDestination.location"/>
                     </div>
 
                     <div class="row mb-3 justify-content-md-center">

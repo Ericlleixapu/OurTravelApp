@@ -24,15 +24,17 @@ export class DestinationsComponent implements OnInit {
   selectedDestination: Destination = {} as Destination;
 
   public destinations: Destination[] = [];
+  public countries: string[] = [];
+  public cities: string[] = [];
 
   constructor(private travelService: TravelService, private modalService: NgbModal, private destinationService: DestinationService) {
   }
   async ngOnInit() {
 
     this.travel = this.travelService.getTravel()
-    this.destinations = await this.destinationService.getDestinationsByTravel(this.travel._id);
-    this.travel.destinations = this.destinations;
+    this.destinations = this.travel.destinations;
     this.selectedDestination = this.newDestination();
+    this.countries = await this.destinationService.getCountryList();
 
   }
 
@@ -46,7 +48,7 @@ export class DestinationsComponent implements OnInit {
       let lastDestination = this.destinations[this.destinations.length - 1];
       return { country: lastDestination.country, location: '', dateFrom: lastDestination.dateTo, dateTo: null, comment: '', travelId: this.travel._id } as Destination;
     }
-    return { country: 'Spain', location: '', dateFrom: null, dateTo: null, comment: '', travelId: this.travel._id } as Destination;
+    return { country: '', location: '', dateFrom: null, dateTo: null, comment: '', travelId: this.travel._id } as Destination;
   }
 
   async addNewDestination() {
@@ -72,7 +74,11 @@ export class DestinationsComponent implements OnInit {
       this.travel.destinations = this.destinations;
     }
   }
-
+  async getCities() {
+    if (this.selectedDestination.country != '') {
+      this.cities = await this.destinationService.getCityList(this.selectedDestination.country);
+    }
+  }
   checkDestinationForm() {
     if (this.selectedDestination.location == '') {
       return false;
@@ -95,12 +101,21 @@ export class DestinationsComponent implements OnInit {
     this.selectedDestination.dateTo = dates.to;
   }
 
-  search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+  searchCountry: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(100),
       distinctUntilChanged(),
       map((term) =>
-        term.length < 1 ? [] : this.destinationService.getCountryList().filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+        term.length < 1 ? [] : this.countries.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+      ),
+    );
+
+  searchCity: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(100),
+      distinctUntilChanged(),
+      map((term) =>
+        term.length < 1 ? [] : this.cities.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
       ),
     );
 

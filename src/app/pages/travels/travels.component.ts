@@ -24,7 +24,10 @@ export class TravelsComponent implements OnInit {
 
 
   async createTravel() {
-    await this.travelService.createTravel();
+    let travel = {} as Travel;
+    travel.destinations = [];
+
+    this.travelService.setTravel(travel);
     this.router.navigate(['travel']);
   }
 

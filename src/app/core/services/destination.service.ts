@@ -9,79 +9,96 @@ import { NotificationService } from './notification.service';
   providedIn: 'root'
 })
 export class DestinationService {
-  
+
   private baseUrl = 'http://localhost:3000/api/destination';
+  private countryList: string[] = [];
 
-  constructor(private authService: AuthService, private http: HttpClient, private notification: NotificationService) {}
-
-  async getDestinationsByTravel(travelId: string): Promise<Destination[]> {
-		const headers = this.getAuthHeaders();
-		try {
-			let res = await lastValueFrom(this.http.get<Destination[]>(this.baseUrl+'/travel/'+travelId, { headers }));
-			return res;
-		} catch (error: unknown) {
-			this.notification.handleError(error, 'Error al carregar els destins');
-			return [];
-		}
-	}
-
-  async addDestination(destination: Destination): Promise<Destination> {
-		const headers = this.getAuthHeaders();
-		try {
-			let res = await lastValueFrom(this.http.post<Destination>(this.baseUrl, destination, { headers }));
-			return res;
-		} catch (error: unknown) {
-			this.notification.handleError(error, 'Error al crear el desti');
-			return {} as Destination;
-		}
-	}
-  async updateDestination(destination: Destination): Promise<Destination> {
-		const headers = this.getAuthHeaders();
-		try {
-			let res = await lastValueFrom(this.http.put<Destination>(this.baseUrl+'/'+destination._id, destination, { headers }));
-			return res;
-		} catch (error: unknown) {
-			this.notification.handleError(error, 'Error al modificar el desti');
-			return {} as Destination;
-		}
-	}
-
-  async deleteDestination(destination: Destination) {
-		const headers = this.getAuthHeaders();
-		try {
-			let res = await lastValueFrom(this.http.delete<Destination>(this.baseUrl+'/'+destination._id, { headers }));
-		} catch (error: unknown) {
-			this.notification.handleError(error, 'Error al modificar el desti');
-		}
-	}
-
-  public getCountryList(): string[] {
-    return countryList;
+  constructor(private authService: AuthService, private http: HttpClient, private notification: NotificationService) {
+    this.getCountryList();
   }
 
-	private getAuthHeaders(): HttpHeaders {
-		const token = this.authService.getToken();
-		return new HttpHeaders({
-			'Authorization': 'Bearer ' + token
-		});
-	}
+  async getDestinationsByTravel(travelId: string): Promise<Destination[]> {
+    const headers = this.getAuthHeaders();
+    try {
+      let res = await lastValueFrom(this.http.get<Destination[]>(this.baseUrl + '/travel/' + travelId, { headers }));
+      return res;
+    } catch (error: unknown) {
+      this.notification.handleError(error, 'Error al carregar els destins');
+      return [];
+    }
+  }
+
+  async addDestination(destination: Destination): Promise<Destination> {
+    const headers = this.getAuthHeaders();
+    try {
+      let res = await lastValueFrom(this.http.post<Destination>(this.baseUrl, destination, { headers }));
+      return res;
+    } catch (error: unknown) {
+      this.notification.handleError(error, 'Error al crear el desti');
+      return {} as Destination;
+    }
+  }
+  async updateDestination(destination: Destination): Promise<Destination> {
+    const headers = this.getAuthHeaders();
+    try {
+      let res = await lastValueFrom(this.http.put<Destination>(this.baseUrl + '/' + destination._id, destination, { headers }));
+      return res;
+    } catch (error: unknown) {
+      this.notification.handleError(error, 'Error al modificar el desti');
+      return {} as Destination;
+    }
+  }
+
+  async deleteDestination(destination: Destination) {
+    const headers = this.getAuthHeaders();
+    try {
+      let res = await lastValueFrom(this.http.delete<Destination>(this.baseUrl + '/' + destination._id, { headers }));
+    } catch (error: unknown) {
+      this.notification.handleError(error, 'Error al modificar el desti');
+    }
+  }
+
+  public async getCountryList():Promise<string[]>  {
+    const headers = this.getAuthHeaders();
+    try {
+      const countryList = await lastValueFrom(this.http.get<string[]>(this.baseUrl + '/countries', { headers }));
+      return countryList;
+    } catch (error: unknown) {
+      this.notification.handleError(error, 'Error al carregar els destins');
+      return [];
+    }
+  }
+
+  public async getCityList(country: string):Promise<string[]> {
+    const headers = this.getAuthHeaders();
+    try {
+      const cityList = await lastValueFrom(this.http.get<string[]>(this.baseUrl + '/cities/' + country, { headers }));
+      return cityList;
+    } catch (error: unknown) {
+      this.notification.handleError(error, 'Error al carregar els destins');
+      return [];
+    }
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+  }
 }
 
 
 
-const countryList = [
+/*const countryList = [
   "Afghanistan",
   "Albania",
   "Algeria",
-  "American Samoa",
   "Andorra",
   "Angola",
-  "Anguilla",
-  "Antarctica",
   "Antigua and Barbuda",
   "Argentina",
   "Armenia",
-  "Aruba",
   "Australia",
   "Austria",
   "Azerbaijan",
@@ -93,16 +110,12 @@ const countryList = [
   "Belgium",
   "Belize",
   "Benin",
-  "Bermuda",
   "Bhutan",
   "Bolivia",
-  "Bonaire, Sint Eustatius and Saba",
   "Bosnia and Herzegovina",
   "Botswana",
-  "Bouvet Island",
   "Brazil",
-  "British Indian Ocean Territory",
-  "Brunei Darussalam",
+  "Brunei",
   "Bulgaria",
   "Burkina Faso",
   "Burundi",
@@ -110,25 +123,19 @@ const countryList = [
   "Cambodia",
   "Cameroon",
   "Canada",
-  "Cayman Islands",
   "Central African Republic",
   "Chad",
   "Chile",
   "China",
-  "Christmas Island",
-  "Cocos Islands",
   "Colombia",
   "Comoros",
   "Congo",
-  "Congo",
-  "Cook Islands",
+  "Congo (Democratic Republic)",
   "Costa Rica",
   "Croatia",
   "Cuba",
-  "Curaçao",
   "Cyprus",
-  "Czechia",
-  "Côte d'Ivoire",
+  "Czech Republic",
   "Denmark",
   "Djibouti",
   "Dominica",
@@ -141,35 +148,22 @@ const countryList = [
   "Estonia",
   "Eswatini",
   "Ethiopia",
-  "Falkland Islands [Malvinas]",
-  "Faroe Islands",
   "Fiji",
   "Finland",
   "France",
-  "French Guiana",
-  "French Polynesia",
-  "French Southern Territories",
   "Gabon",
   "Gambia",
   "Georgia",
   "Germany",
   "Ghana",
-  "Gibraltar",
   "Greece",
-  "Greenland",
   "Grenada",
-  "Guadeloupe",
-  "Guam",
   "Guatemala",
-  "Guernsey",
   "Guinea",
   "Guinea-Bissau",
   "Guyana",
   "Haiti",
-  "Heard Island and McDonald Islands",
-  "Holy See",
   "Honduras",
-  "Hong Kong",
   "Hungary",
   "Iceland",
   "India",
@@ -177,21 +171,19 @@ const countryList = [
   "Iran",
   "Iraq",
   "Ireland",
-  "Isle of Man",
   "Israel",
   "Italy",
   "Jamaica",
   "Japan",
-  "Jersey",
   "Jordan",
   "Kazakhstan",
   "Kenya",
   "Kiribati",
-  "Korea (North)",
-  "Korea (South)",
+  "Korea, North",
+  "Korea, South",
   "Kuwait",
   "Kyrgyzstan",
-  "Lao People's Democratic Republic",
+  "Laos",
   "Latvia",
   "Lebanon",
   "Lesotho",
@@ -200,7 +192,6 @@ const countryList = [
   "Liechtenstein",
   "Lithuania",
   "Luxembourg",
-  "Macao",
   "Madagascar",
   "Malawi",
   "Malaysia",
@@ -208,17 +199,14 @@ const countryList = [
   "Mali",
   "Malta",
   "Marshall Islands",
-  "Martinique",
   "Mauritania",
   "Mauritius",
-  "Mayotte",
   "Mexico",
   "Micronesia",
   "Moldova",
   "Monaco",
   "Mongolia",
   "Montenegro",
-  "Montserrat",
   "Morocco",
   "Mozambique",
   "Myanmar",
@@ -226,40 +214,28 @@ const countryList = [
   "Nauru",
   "Nepal",
   "Netherlands",
-  "New Caledonia",
   "New Zealand",
   "Nicaragua",
   "Niger",
   "Nigeria",
-  "Niue",
-  "Norfolk Island",
-  "Northern Mariana Islands",
+  "North Macedonia",
   "Norway",
   "Oman",
   "Pakistan",
   "Palau",
-  "Palestine, State of",
   "Panama",
   "Papua New Guinea",
   "Paraguay",
   "Peru",
   "Philippines",
-  "Pitcairn",
   "Poland",
   "Portugal",
-  "Puerto Rico",
   "Qatar",
-  "Republic of North Macedonia",
   "Romania",
-  "Russian Federation",
+  "Russia",
   "Rwanda",
-  "Réunion",
-  "Saint Barthélemy",
-  "Saint Helena, Ascension and Tristan da Cunha",
   "Saint Kitts and Nevis",
   "Saint Lucia",
-  "Saint Martin",
-  "Saint Pierre and Miquelon",
   "Saint Vincent and the Grenadines",
   "Samoa",
   "San Marino",
@@ -270,53 +246,44 @@ const countryList = [
   "Seychelles",
   "Sierra Leone",
   "Singapore",
-  "Sint Maarten",
   "Slovakia",
   "Slovenia",
   "Solomon Islands",
   "Somalia",
   "South Africa",
-  "South Georgia and the South Sandwich Islands",
+  "South Korea",
   "South Sudan",
   "Spain",
   "Sri Lanka",
   "Sudan",
   "Suriname",
-  "Svalbard and Jan Mayen",
   "Sweden",
   "Switzerland",
-  "Syrian Arab Republic",
+  "Syria",
   "Taiwan",
   "Tajikistan",
-  "Tanzania, United Republic of",
+  "Tanzania",
   "Thailand",
   "Timor-Leste",
   "Togo",
-  "Tokelau",
   "Tonga",
   "Trinidad and Tobago",
   "Tunisia",
   "Turkey",
   "Turkmenistan",
-  "Turks and Caicos Islands",
   "Tuvalu",
   "Uganda",
   "Ukraine",
   "United Arab Emirates",
   "United Kingdom",
-  "United States Minor Outlying Islands",
-  "United States of America",
+  "United States",
   "Uruguay",
   "Uzbekistan",
   "Vanuatu",
+  "Vatican City",
   "Venezuela",
-  "Viet Nam",
-  "Virgin Islands (British)",
-  "Virgin Islands (U.S.)",
-  "Wallis and Futuna",
-  "Western Sahara",
+  "Vietnam",
   "Yemen",
   "Zambia",
-  "Zimbabwe",
-  "Åland Islands"
-];
+  "Zimbabwe"
+]*/

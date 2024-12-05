@@ -19,7 +19,6 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class JourneysComponent {
 
-
   today = new Date();
   startDay: NgbDate = new NgbDate(this.today.getFullYear(), this.today.getMonth() + 1, this.today.getDate());
 
@@ -34,15 +33,13 @@ export class JourneysComponent {
   public journeys: Journey[] = [];
   public destinations: Destination[] = [];
 
-  public image$: Observable<any> = {} as Observable<any>;
-
-
   constructor(private travelService: TravelService, private modalService: NgbModal, private journeyService: JourneyService) {
   }
   async ngOnInit() {
 
     this.travel = this.travelService.getTravel()
     this.journeys = await this.journeyService.getJourneysByTravel(this.travel._id);
+    this.travel.journeys = this.journeys;
     this.destinations = this.travel.destinations;
     this.selectedJourney = this.newJourney();
   }
@@ -55,20 +52,37 @@ export class JourneysComponent {
     this.timeFrom = { hour: 0, minute: 0 };
     this.dateTo = {} as NgbDateStruct;
     this.timeTo = { hour: 0, minute: 0 };
-
-    if (journey?.dateTimeFrom) {
-      let dateFrom = new Date(journey?.dateTimeFrom);
-      this.dateFrom = new NgbDate(dateFrom.getFullYear(), dateFrom.getMonth() + 1, dateFrom.getDate());
-      this.timeFrom = { hour: dateFrom.getHours(), minute: dateFrom.getMinutes() };
-    }
-    if (journey?.dateTimeTo) {
-      let dateTo = new Date(journey?.dateTimeTo);
-      this.dateTo = new NgbDate(dateTo.getFullYear(), dateTo.getMonth() + 1, dateTo.getDate());
-      this.timeTo = { hour: dateTo.getHours(), minute: dateTo.getMinutes() };
-    }
-    this.modalService.open(content, { centered: true, backdrop: 'static' });
+    this.showDateTime(journey);
+    this.modalService.open(content, { centered: true, backdrop: 'static' , size: 'lg' });
   }
 
+  showDateTime(journey?: Journey) {
+    if (journey?.dateTimeFrom) {
+      const ngDateTime = this.convertDateToNgbDate(journey?.dateTimeFrom)
+      this.dateFrom = ngDateTime.date;
+      this.timeFrom = ngDateTime.time;
+    }
+    if (journey?.dateTimeTo) {
+      const ngDateTime = this.convertDateToNgbDate(journey?.dateTimeTo)
+      this.dateTo = ngDateTime.date;
+      this.timeTo = ngDateTime.time;
+    }
+  }
+
+  compareFn(item1: any, item2: any): boolean {
+    return item1 && item2 ? item1._id === item2._id : item1 === item2;
+  }
+
+  convertDateToNgbDate(date: Date) {
+    let dateFrom = new Date(date);
+    return { date: new NgbDate(dateFrom.getFullYear(), dateFrom.getMonth() + 1, dateFrom.getDate()), time: { hour: dateFrom.getHours(), minute: dateFrom.getMinutes() } };
+  }
+  convertNgbDateToDate(date: NgbDate, time?: { hour: number, minute: number }) {
+    if (time) {
+      return new Date(date.year, date.month - 1, date.day, time.hour, time.minute);
+    }
+    return new Date(date.year, date.month - 1, date.day);
+  }
   setDataArribada() {
     this.dateTo = new NgbDate(this.dateFrom.year, this.dateFrom.month, this.dateFrom.day);
   }
@@ -103,6 +117,13 @@ export class JourneysComponent {
     }
   }
 
+  setDates() {
+    if (this.selectedJourney.from?.dateTo) this.selectedJourney.dateTimeFrom = this.selectedJourney.from?.dateTo;
+    if (this.selectedJourney.to?.dateFrom) this.selectedJourney.dateTimeTo = this.selectedJourney.to?.dateFrom;
+
+    this.showDateTime(this.selectedJourney);
+  }
+  
   setDateTime() {
     this.selectedJourney.dateTimeFrom = new Date(this.dateFrom.year, this.dateFrom.month - 1, this.dateFrom.day, this.timeFrom.hour, this.timeFrom.minute);
     this.selectedJourney.dateTimeTo = new Date(this.dateTo.year, this.dateTo.month - 1, this.dateTo.day, this.timeTo.hour, this.timeTo.minute);

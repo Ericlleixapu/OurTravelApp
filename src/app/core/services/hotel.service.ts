@@ -27,6 +27,7 @@ export class HotelService {
 
   async addHotel(hotel: Hotel): Promise<Hotel> {
     const headers = this.getAuthHeaders();
+    console.log(hotel);
     try {
       let res = await lastValueFrom(this.http.post<Hotel>(this.baseUrl, hotel, { headers }));
       return res;
