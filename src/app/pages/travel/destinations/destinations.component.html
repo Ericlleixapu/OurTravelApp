@@ -4,23 +4,18 @@
 <div class="row justify-content">
 
     <div *ngFor="let destination of destinations" class="col-md-2 col-md-2 mb-3">
-        <div class="card travel-card" (click)="openDestinationModal(newDestinationModal,destination)">
-            <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
-
-            <!-- <img *ngIf="destination.imageUrl !=null" [src]="destination.imageUrl">
-            <img *ngIf="destination.imageUrl ==null" [src]="'assets/userPlaceholder.png'"> -->
-            <div class="card-body">
-                <h5 class="card-title">{{destination.country}}</h5>
-                <h6 class="card-title">{{destination.location}}</h6>
-                <p class="card-text">{{destination.dateFrom | date: 'dd/MM/yyyy'}} - {{destination.dateTo | date: 'dd/MM/yyyy'}}</p>
-            </div>
-        </div>
+        <app-travel-element [name]="destination.location"
+            [image]="'https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d'" [type]="'destinació'"
+            [dateFrom]="destination.dateFrom" [dateTo]="destination.dateTo"
+            (onClick)="openDestinationModal(newDestinationModal,destination)"
+            (onDelete)="removeDestination(destination)">
+        </app-travel-element>
     </div>
 
     <div *ngIf="destinations.length == 0">
         <div class="alert alert-primary" role="alert">
             Encara res per aqui.
-          </div>
+        </div>
     </div>
 </div>
 
@@ -40,30 +35,35 @@
 
                     <div class="col md-12 mb-3">
                         <label for="typeahead-basic">A quin pais vas?</label>
-                        <input id="typeahead-basic" type="text" class="form-control" 
-                            [ngbTypeahead]="searchCountry" [(ngModel)]="selectedDestination.country" (change)="getCities()"/>
+                        <input id="typeahead-basic" type="text" class="form-control" [ngbTypeahead]="searchCountry"
+                            [(ngModel)]="selectedDestination.country" (change)="getCities()" />
                     </div>
 
                     <div class="col md-12 mb-3">
                         <label for="typeahead-basic">On vas?</label>
-                        <input id="typeahead-basic" type="text" class="form-control" 
-                        [ngbTypeahead]="searchCity" placeholder="Ex: Barcelona" [(ngModel)]="selectedDestination.location"/>
+                        <input id="typeahead-basic" type="text" class="form-control" [ngbTypeahead]="searchCity"
+                            placeholder="Ex: Barcelona" [(ngModel)]="selectedDestination.location" />
                     </div>
 
                     <div class="row mb-3 justify-content-md-center">
                         <label for="travelDatepicker" class="form-label">Quins dies vas?</label>
                         <div class="col md-12">
-                            <app-datepicker id="travelDatepicker" [from]="selectedDestination.dateFrom" [to]="selectedDestination.dateTo"
+                            <app-datepicker id="travelDatepicker" [from]="selectedDestination.dateFrom"
+                                [to]="selectedDestination.dateTo"
                                 (selectedDates)="onDateSelection($event)"></app-datepicker>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="travelDescriptionInput" class="form-label">Alguna cosa reseñable a
-                            afegir?</label>
-                        <textarea class="form-control" id="travelDescriptionInput" name="travelDescriptionInput"
-                            ></textarea>
+                    <div class="row mb-3">
+                        <div class="col md-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                    style="height: 100px" [(ngModel)]="selectedDestination.comment"></textarea>
+                                <label for="floatingTextarea2">Comentaris adicionals</label>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
@@ -71,9 +71,10 @@
 
     </div>
     <div class="modal-footer">
-        <button *ngIf="selectedDestination._id" type="submit" class="btn btn-danger" (click)="removeDestination();modal.close('Close click')">Eliminar</button>
-        <button *ngIf="!selectedDestination._id" type="submit" class="btn btn-primary" (click)="addNewDestination()">Guardar</button>
-        <button *ngIf="selectedDestination._id" type="submit" class="btn btn-primary" (click)="updateDestination()">Guardar</button>
+        <button *ngIf="!selectedDestination._id" type="submit" class="btn btn-primary"
+            (click)="addNewDestination()">Guardar</button>
+        <button *ngIf="selectedDestination._id" type="submit" class="btn btn-primary"
+            (click)="updateDestination()">Guardar</button>
         <button type="submit" class="btn btn-secondary" (click)="modal.close('Close click')">Tanca</button>
     </div>
 </ng-template>

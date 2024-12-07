@@ -4,7 +4,7 @@ import { Travel } from "./travel.model";
 export interface Hotel {
     _id?: string;
     name: string;
-    destination: Destination|null;
+    destination: Destination;
     address?: string;
     comment?: string;
     travelId: string;

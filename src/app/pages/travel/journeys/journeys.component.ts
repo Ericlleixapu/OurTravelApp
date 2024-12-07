@@ -9,11 +9,12 @@ import { Journey, JourneyType } from '../../../core/models/journey.model';
 import { JourneyService } from '../../../core/services/journey.service';
 import { Destination } from '../../../core/models/destination.model';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { TravelElementComponent } from "../../../shared/components/travel-element/travel-element.component";
 
 @Component({
   selector: 'app-journeys',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgbTypeaheadModule, NgbDatepickerModule, NgbTimepickerModule],
+  imports: [CommonModule, FormsModule, NgbTypeaheadModule, NgbDatepickerModule, NgbTimepickerModule, TravelElementComponent],
   templateUrl: './journeys.component.html',
   styleUrl: './journeys.component.scss'
 })
@@ -46,16 +47,16 @@ export class JourneysComponent {
 
 
   openAddNewJourney(content: TemplateRef<any>, journey?: Journey) {
-    this.selectedJourney = journey || this.newJourney();
+      this.selectedJourney = journey || this.newJourney();
 
-    this.dateFrom = {} as NgbDateStruct;
-    this.timeFrom = { hour: 0, minute: 0 };
-    this.dateTo = {} as NgbDateStruct;
-    this.timeTo = { hour: 0, minute: 0 };
-    this.showDateTime(journey);
-    this.modalService.open(content, { centered: true, backdrop: 'static' , size: 'lg' });
+      this.dateFrom = {} as NgbDateStruct;
+      this.timeFrom = { hour: 0, minute: 0 };
+      this.dateTo = {} as NgbDateStruct;
+      this.timeTo = { hour: 0, minute: 0 };
+      this.showDateTime(journey);
+      this.modalService.open(content, { centered: true, backdrop: 'static', size: 'lg' });
   }
-
+  
   showDateTime(journey?: Journey) {
     if (journey?.dateTimeFrom) {
       const ngDateTime = this.convertDateToNgbDate(journey?.dateTimeFrom)
@@ -123,17 +124,15 @@ export class JourneysComponent {
 
     this.showDateTime(this.selectedJourney);
   }
-  
+
   setDateTime() {
     this.selectedJourney.dateTimeFrom = new Date(this.dateFrom.year, this.dateFrom.month - 1, this.dateFrom.day, this.timeFrom.hour, this.timeFrom.minute);
     this.selectedJourney.dateTimeTo = new Date(this.dateTo.year, this.dateTo.month - 1, this.dateTo.day, this.timeTo.hour, this.timeTo.minute);
   }
 
-  async removeJourney() {
-    if (confirm('Segur que vols eliminar el trajecte? aquesta acció no es pot desfer.')) {
-      await this.journeyService.deleteJourney(this.selectedJourney);
-      this.journeys = await this.journeyService.getJourneysByTravel(this.travel._id);
-    }
+  async removeJourney(journey: Journey) {
+    await this.journeyService.deleteJourney(journey);
+    this.journeys = await this.journeyService.getJourneysByTravel(this.travel._id);
   }
 
   checkJourneyForm() {

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { User } from '../models/user.model'; // Assegura't que tens un model d'usuari definit
 import { AuthService } from './auth.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +12,23 @@ export class UserService {
   private baseUrl = 'http://localhost:3000/api/user';
   private currentUser: User = {} as User;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private notificationService: NotificationService) {
+   }
 
-  public async login(loginEmail:string, loginPassword:string) {
+  public async login(loginEmail: string, loginPassword: string) {
 
     let res = await this.authService.login(loginEmail, loginPassword);
-    await this.getUserProfile();
+    if (res.ok) {
+      await this.getUserProfile();
+    }
     return res;
 
   }
 
-  public async register(newUser:User) {
-      await this.authService.register(newUser);
+  public async register(newUser: User) {
+    await this.authService.register(newUser);
   }
+
 
   async getUserProfile(): Promise<User> {
     try {
@@ -32,7 +37,7 @@ export class UserService {
       this.currentUser = await lastValueFrom(res);
       return lastValueFrom(res);
     } catch (error) {
-      console.error('Error al obtenir el perfil de l\'usuari', error);
+      this.notificationService.handleError(error, 'Error l obtenir l\' usuari');
       throw error;
     }
   }
@@ -53,6 +58,7 @@ export class UserService {
       this.currentUser = await lastValueFrom(this.http.put<User>(this.baseUrl + '/password', { oldPassword: oldPassword, newPassword: newPassword }, { headers }));
       return this.currentUser;
     } catch (error: any) {
+      this.notificationService.handleError(error, 'Error al actualitzar la contrassenya');
       return error;
     }
   }
@@ -69,14 +75,14 @@ export class UserService {
     this.currentUser = {} as User;
     this.authService.logout();
   }
-  
+
   static checkData(email: string, pass?: string, confirm?: string,) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
       alert('El correu electrònic no es correcte.');
       return false;
     }
-    if (pass!==null && confirm!==null) {
+    if (pass !== null && confirm !== null) {
       if (pass == '') {
         alert('La contrasenya no es pot deixar en blanc.');
         return false;

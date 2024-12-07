@@ -8,11 +8,12 @@ import { DatepickerComponent } from '../../../shared/components/datepicker/datep
 import { Hotel } from '../../../core/models/hotel.model';
 import { HotelService } from '../../../core/services/hotel.service';
 import { Destination } from '../../../core/models/destination.model';
+import { TravelElementComponent } from "../../../shared/components/travel-element/travel-element.component";
 
 @Component({
   selector: 'app-hotels',
   standalone: true,
-  imports: [CommonModule, DatepickerComponent, FormsModule, NgbTypeaheadModule],
+  imports: [CommonModule, DatepickerComponent, FormsModule, NgbTypeaheadModule, TravelElementComponent],
   templateUrl: './hotels.component.html',
   styleUrl: './hotels.component.scss'
 })
@@ -46,7 +47,7 @@ export class HotelsComponent {
   }
 
   newHotel(): Hotel {
-    return { name: '', destination: null, travelId: this.travel._id };
+    return { name: '', destination: this.destinations[this.hotels.length], travelId: this.travel._id };
   }
 
   async addNewHotel() {
@@ -66,11 +67,9 @@ export class HotelsComponent {
       alert('S han d\'omplir tots els camps.');
     }
   }
-  async removeHotel() {
-    if (confirm('Segur que vols eliminar el desti? aquesta acció no es pot desfer.')) {
-      await this.hotelService.deleteHotel(this.selectedHotel);
+  async removeHotel(hotel: Hotel) {
+      await this.hotelService.deleteHotel(hotel);
       this.hotels = await this.hotelService.getHotelsByTravel(this.travel._id);
-    }
   }
 
   checkHotelForm() {

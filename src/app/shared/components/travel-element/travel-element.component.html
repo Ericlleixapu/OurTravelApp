@@ -1,0 +1,37 @@
+<div class="card travel-card" (click)="click()">
+    <img *ngIf="image !=''" [src]="image" class="card-img-top" alt="...">
+    <i *ngIf="image ==''"  class="fa fa-{{logo}} fa-3x card-img-top text-primary" style="margin: 0.1em;" aria-hidden="true"></i>
+    <div class="position-absolute top-0 end-0" style="padding:0.5em">
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="remove = true;removeModal(deleteModal)"><i
+                class="fa-solid fa-trash-can"></i></button>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{name}}</h5>
+        <h6 class="card-title">{{description}}</h6>
+        <p *ngIf="type =='trajecte' && dateFrom" class="card-text">{{dateFrom | date:'d/M/yy H:mm'}} <br> {{dateTo | date:'d/M/yy H:mm'}}</p>
+        <p *ngIf="type =='trajecte' && !dateFrom" class="card-text">{{dateTo | date:'d/M/yy H:mm'}}</p>
+        <p *ngIf="type !='trajecte'" class="card-text">{{dateFrom | date:'d/M/yy'}} <br> {{dateTo | date:'d/M/yy'}}</p>
+    </div>
+</div>
+
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Eliminar {{type}}
+        </h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="remove = false ;modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Estas segur que vols eliminar el {{type}}? Es perdrà tota la informació relacionada amb aquest {{type}},
+            aquest canvi no es pot desfer.
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="removeClick();modal.dismiss('Cross click')">Eliminar <i
+                class="bi bi-trash3-fill"></i></button>
+        <button type="button" class="btn btn-secondary"
+            (click)="remove = false;modal.close('Close click')">Cancel·lar</button>
+    </div>
+</ng-template>

@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(private toastr: ToastrService) { }
+	constructor(private toastr: ToastrService) { }
 
 
-  
+
 	private isHttpErrorResponse(error: unknown): error is HttpErrorResponse {
 		return (error as HttpErrorResponse).status !== undefined;
 	}
@@ -46,5 +46,8 @@ export class NotificationService {
 		}
 	}
 
-  
+	public showSuccess(msg: string) {
+		this.toastr.success(msg);
+	}
+
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { lastValueFrom, Observable, tap } from 'rxjs';
 import { User } from '../models/user.model';
+import { NotificationService } from './notification.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,18 +12,27 @@ export class AuthService {
     private baseUrl = 'http://localhost:3000/api/auth';
     private tokenKey = 'authToken'; // Clau per emmagatzemar el token
 
-    constructor(private http: HttpClient, private router: Router) { }
-    async register(user: User): Promise<User> {
-        return lastValueFrom(this.http.post<User>(this.baseUrl + '/register', user));
+    constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) { }
+
+    async register(user: User) {
+        try {
+            let res = await lastValueFrom(this.http.post<{ ok: string, message: string }>(this.baseUrl + '/register', user));
+            if (res.ok) {
+                this.notificationService.showSuccess(res.message);
+            }
+        } catch (error: unknown) {
+            this.notificationService.handleError(error, 'Error al registrar l\' usuari');
+        }
     }
 
     async login(email: string, password: string) {
         try {
-            let res = await lastValueFrom(this.http.post<{ token: string }>(this.baseUrl + '/login', { email, password }));
+            let res = await lastValueFrom(this.http.post<{ ok: string, token: string }>(this.baseUrl + '/login', { email, password }));
             this.storeToken(res.token); // Emmagatzema el token            
             return res;
-        } catch (error: any) {
-            return error;
+        } catch (error: unknown) {
+            this.notificationService.handleError(error, 'Error al iniciar sessió');
+            return { ok: false };
         }
     }
 

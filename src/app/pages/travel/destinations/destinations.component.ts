@@ -10,11 +10,12 @@ import { Destination } from '../../../core/models/destination.model';
 import { DestinationService } from '../../../core/services/destination.service';
 import { JourneysComponent } from "../journeys/journeys.component";
 import { HotelsComponent } from '../hotels/hotels.component';
+import { TravelElementComponent } from "../../../shared/components/travel-element/travel-element.component";
 
 @Component({
   selector: 'app-destinations',
   standalone: true,
-  imports: [CommonModule, DatepickerComponent, FormsModule, NgbTypeaheadModule, JourneysComponent, HotelsComponent],
+  imports: [CommonModule, DatepickerComponent, FormsModule, NgbTypeaheadModule, JourneysComponent, HotelsComponent, TravelElementComponent],
   templateUrl: './destinations.component.html',
   styleUrl: './destinations.component.scss'
 })
@@ -35,6 +36,9 @@ export class DestinationsComponent implements OnInit {
     this.destinations = this.travel.destinations;
     this.selectedDestination = this.newDestination();
     this.countries = await this.destinationService.getCountryList();
+    if (this.destinations.length > 0) {
+      this.cities = await this.destinationService.getCityList(this.destinations[0].country);
+    }
 
   }
 
@@ -46,9 +50,9 @@ export class DestinationsComponent implements OnInit {
   newDestination() {
     if (this.destinations.length > 0) {
       let lastDestination = this.destinations[this.destinations.length - 1];
-      return { country: lastDestination.country, location: '', dateFrom: lastDestination.dateTo, dateTo: null, comment: '', travelId: this.travel._id } as Destination;
+      return { country: lastDestination.country, location: '', dateFrom: lastDestination.dateTo, comment: '', travelId: this.travel._id } as Destination;
     }
-    return { country: '', location: '', dateFrom: null, dateTo: null, comment: '', travelId: this.travel._id } as Destination;
+    return { country: '', location: '', comment: '', travelId: this.travel._id } as Destination;
   }
 
   async addNewDestination() {
@@ -67,12 +71,10 @@ export class DestinationsComponent implements OnInit {
       alert('S han d\'omplir tots els camps.');
     }
   }
-  async removeDestination() {
-    if (confirm('Segur que vols eliminar el desti? aquesta acció no es pot desfer.')) {
-      await this.destinationService.deleteDestination(this.selectedDestination);
-      this.destinations = await this.destinationService.getDestinationsByTravel(this.travel._id);
-      this.travel.destinations = this.destinations;
-    }
+  async removeDestination(destination: Destination) {
+    await this.destinationService.deleteDestination(destination);
+    this.destinations = await this.destinationService.getDestinationsByTravel(this.travel._id);
+    this.travel.destinations = this.destinations;
   }
   async getCities() {
     if (this.selectedDestination.country != '') {

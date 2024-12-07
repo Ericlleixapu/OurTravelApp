@@ -1,18 +1,75 @@
-
 <h5 class="text-primary">Activitats <button type="button" class="btn btn-sm btn-outline-primary"
-    (click)="null"><i class="fa-regular fa-plus"></i></button></h5>
+        (click)="openActivityModal(modal)"><i class="fa-regular fa-plus"></i></button></h5>
 
 <div class="row">
 
-    <div *ngFor="let travel of activities" class="col-md-2 col-sm-3  mb-3">
-        <div class="card travel-card" (click)="null">
-            <div class="card-body">
-                <h6 class="card-title">Visitar la sagrada familia</h6>
-                <p class="card-text">15/05/2023 - 20/05/2023</p>
-            </div>
-        </div>
+    <div *ngFor="let activity of activities" class="col-md-2 col-sm-3  mb-3">
+        <app-travel-element [description]="activity.name" [logo]="ActivityIcon[activity.type]"
+            [dateFrom]="activity.date" (onClick)="openActivityModal(modal,activity)"
+            (onDelete)="removeActivity(activity)">
+        </app-travel-element>
     </div>
 
-
-
 </div>
+
+
+<ng-template #modal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Nova activitat</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container text-center">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nameFloatingInput" [(ngModel)]="selectedActivity.name">
+                <label for="nameFloatingInput">Nom de l'activitat</label>
+            </div>
+            <div class="col md-12 mb-3">
+                <div class="form-floating">
+                    <select class="form-select" id="fromDestination" aria-label="Destinació origen"
+                        [(ngModel)]="selectedActivity.destination" [compareWith]="compareFn">
+                        <option *ngFor="let destination of travel.destinations" [ngValue]="destination">
+                            {{destination.country}} {{destination.location}}</option>
+                    </select>
+                    <label for="parentCategory">Ubicació de l' activitat</label>
+                </div>
+            </div>
+            <div class="col md-12 mb-3">
+                <div class="form-floating">
+                    <select class="form-select" id="fromDestination" aria-label="Destinació origen"
+                        [(ngModel)]="selectedActivity.type">
+                        <option *ngFor="let type of activityTypes" [ngValue]="type">
+                            {{type}}</option>
+                    </select>
+                    <label for="parentCategory">Tipus d' activitat</label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <ngb-datepicker #dp [(ngModel)]="activityNgbDate" [weekdays]="false"
+                        (navigate)="date = $event.next" />
+                </div>
+                <div class="col">
+                    <ngb-timepicker [(ngModel)]="activityNgbTime" [ngModelOptions]="{standalone: true}" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col md-12">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            style="height: 100px" [(ngModel)]="selectedActivity.comment"></textarea>
+                        <label for="floatingTextarea2">Comentaris adicionals</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="!selectedActivity._id" type="submit" class="btn btn-primary" (click)="addActivity()">Guardar</button>
+        <button *ngIf="selectedActivity._id" type="submit" class="btn btn-primary" (click)="updateActivity()">Guardar</button>
+        <button type="submit" class="btn btn-secondary" (click)="modal.close('Close click')">Tanca</button>
+    </div>
+</ng-template>

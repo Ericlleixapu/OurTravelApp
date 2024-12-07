@@ -11,11 +11,12 @@ import { Travel } from '../../../core/models/travel.model';
 import { DestinationService } from '../../../core/services/destination.service';
 import { JourneyService } from '../../../core/services/journey.service';
 import { HotelService } from '../../../core/services/hotel.service';
+import { MembersComponent } from '../members/members.component';
 
 @Component({
   selector: 'app-travel-page',
   standalone: true,
-  imports: [CommonModule, DestinationsComponent, ActivitiesComponent, ExpensesComponent, GalleryComponent, DocumentsComponent],
+  imports: [CommonModule, DestinationsComponent, ActivitiesComponent, ExpensesComponent, GalleryComponent, DocumentsComponent,MembersComponent],
   templateUrl: './travel-page.component.html',
   styleUrl: './travel-page.component.scss'
 })
@@ -24,6 +25,7 @@ export class TravelPageComponent implements OnInit {
   destinations: string = 'active';
   activities: string = 'inactive';
   expenses: string = 'inactive';
+  members: string = 'inactive';
   images: string = 'inactive';
   documents: string = 'inactive';
 
@@ -33,9 +35,6 @@ export class TravelPageComponent implements OnInit {
   constructor(
     private travelService: TravelService,
     private destinationService: DestinationService,
-    private journeyService: JourneyService,
-    private hotelService: HotelService,
-    private router: Router
   ) { }
 
 
@@ -45,11 +44,8 @@ export class TravelPageComponent implements OnInit {
     if (!this.travel._id) {
       await this.travelService.createTravel();
       this.travel = this.travelService.getTravel();
-    }else{
-      this.travel.destinations = await this.destinationService.getDestinationsByTravel(this.travel._id);
-      this.travel.journeys = await this.journeyService.getJourneysByTravel(this.travel._id);
-      this.travel.hotels = await this.hotelService.getHotelsByTravel(this.travel._id);
     }
+    this.travel.destinations = await this.destinationService.getDestinationsByTravel(this.travel._id);
     this.ready = true;
   }
 
@@ -57,6 +53,7 @@ export class TravelPageComponent implements OnInit {
     this.destinations = 'inactive';
     this.activities = 'inactive';
     this.expenses = 'inactive';
+    this.members = 'inactive';
     this.images = 'inactive';
     this.documents = 'inactive';
 
@@ -72,6 +69,9 @@ export class TravelPageComponent implements OnInit {
         break;
       case 'images':
         this.images = 'active';
+        break;
+      case 'members':
+        this.members = 'active';
         break;
       case 'documents':
         this.documents = 'active';

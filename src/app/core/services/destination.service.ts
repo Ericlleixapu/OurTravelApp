@@ -64,7 +64,6 @@ export class DestinationService {
       const countryList = await lastValueFrom(this.http.get<string[]>(this.baseUrl + '/countries', { headers }));
       return countryList;
     } catch (error: unknown) {
-      this.notification.handleError(error, 'Error al carregar els destins');
       return [];
     }
   }
@@ -75,7 +74,6 @@ export class DestinationService {
       const cityList = await lastValueFrom(this.http.get<string[]>(this.baseUrl + '/cities/' + country, { headers }));
       return cityList;
     } catch (error: unknown) {
-      this.notification.handleError(error, 'Error al carregar els destins');
       return [];
     }
   }

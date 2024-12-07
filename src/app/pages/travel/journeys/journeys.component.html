@@ -4,16 +4,16 @@
 <div class="row justify-content">
 
     <div *ngFor="let journey of journeys" class="col-md-2 mb-3">
-        <div class="card travel-card" (click)="openAddNewJourney(newJourneyModal,journey)">
-            <i class="fa fa-{{journey.journeyType}} fa-3x card-img-top text-primary" style="margin: 0.1em;"
-                aria-hidden="true"></i>
-            <div class="card-body">
-                <h6 class="card-title">{{journey.from?.location||'Casa'}} -</h6>
-                <h6 class="card-title">{{journey.to?.location||'Casa'}}</h6>
-                <p class="card-text">{{journey.dateTimeFrom | date:'d/M/yy H:mm'}} - {{journey.dateTimeTo |
-                    date:'d/M/yy H:mm'}}</p>
-            </div>
-        </div>
+        <app-travel-element 
+            [description]="(journey.from?.location||'Casa') + ' - '+ (journey.to?.location||'Casa')"
+            [logo]="journey.journeyType" 
+            [type]="'trajecte'" 
+            [dateFrom]="journey.dateTimeFrom"
+            [dateTo]="journey.dateTimeTo"
+            (onClick)="openAddNewJourney(newJourneyModal,journey)"
+            (onDelete)="removeJourney(journey)"
+            >
+        </app-travel-element>
     </div>
 
     <div *ngIf="journeys.length == 0">
@@ -144,18 +144,19 @@
             </div>
 
         </div>
-        <div class="row mb-3 justify-content-md-center">
-            <div class="col md-12 mb-3">
-                <label for="typeahead-basic">Comentaris adicionals</label>
-                <textarea id="typeahead-basic" type="text" class="form-control"
-                    [(ngModel)]="selectedJourney.comment"></textarea>
+
+        <div class="row mb-3">
+            <div class="col md-12">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                        style="height: 100px" [(ngModel)]="selectedJourney.comment"></textarea>
+                    <label for="floatingTextarea2">Comentaris adicionals</label>
+                </div>
             </div>
         </div>
 
     </div>
     <div class="modal-footer">
-        <button *ngIf="selectedJourney._id" type="submit" class="btn btn-danger"
-            (click)="removeJourney();modal.close('Close click')">Eliminar</button>
         <button *ngIf="!selectedJourney._id" type="submit" class="btn btn-primary"
             (click)="addNewJourney()">Guardar</button>
         <button *ngIf="selectedJourney._id" type="submit" class="btn btn-primary"

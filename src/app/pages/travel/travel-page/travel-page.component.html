@@ -8,7 +8,7 @@
           <a class="nav-link {{activities}}" (click)="changeTab('activities')">Activitats</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{expenses}}" (click)="changeTab('expenses')">Despeses</a>
+          <a class="nav-link {{members}}" (click)="changeTab('members')">Membres</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{images}}" (click)="changeTab('images')">Imatges</a>
@@ -20,7 +20,7 @@
 
       <app-destinations *ngIf="destinations == 'active'"></app-destinations>
       <app-activities *ngIf="activities == 'active'"></app-activities>
-      <app-expenses *ngIf="expenses == 'active'"></app-expenses>
+      <app-members *ngIf="members == 'active'"></app-members>
       <app-gallery *ngIf="images == 'active'"></app-gallery>
       <app-documents *ngIf="documents == 'active'"></app-documents>
 

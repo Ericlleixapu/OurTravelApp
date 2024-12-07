@@ -3,16 +3,12 @@
 
 <div class="row justify-content">
 
-    <div *ngFor="let hotel of hotels" class="col-md-2 mb-3">        
-        <div class="card travel-card" (click)="openAddNewHotel(newHotelModal,hotel)" >            
-        <i class="fa fa-bed fa-3x card-img-top text-primary" style="margin: 0.1em;"
-        aria-hidden="true"></i>
-            <div class="card-body">
-                <h6 class="card-title">{{hotel.name}}</h6>
-                <h6 class="card-title">{{hotel.destination?.location}}</h6>
-                <p class="card-text">{{hotel.destination?.dateFrom| date:'dd/MM/yyyy'}} - {{hotel.destination?.dateTo| date:'dd/MM/yyyy'}}</p>
-            </div>
-        </div>
+    <div *ngFor="let hotel of hotels" class="col-md-2 mb-3">
+        <app-travel-element [name]="hotel.name" [type]="'hotel'" [description]="hotel.destination.location"
+            [logo]="'bed'" [dateFrom]="hotel.destination.dateFrom" [dateTo]="hotel.destination.dateTo"
+            (onClick)="openAddNewHotel(newHotelModal,hotel)" (onDelete)="removeHotel(hotel)">
+        </app-travel-element>
+
     </div>
 
     <div *ngIf="hotels.length == 0">
@@ -29,22 +25,26 @@
     </div>
     <div class="modal-body">
 
-        <div class="container text-center">
-            <div class="row mb-3 justify-content-md-center">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="nameFloatingInput" [(ngModel)]="selectedHotel.name">
-                    <label for="nameFloatingInput">Nom</label>
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col md-12 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="nameFloatingInput" [(ngModel)]="selectedHotel.name">
+                        <label for="nameFloatingInput">Nom</label>
+                    </div>
                 </div>
             </div>
-            <div class="row mb-3 justify-content-md-center">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="addressFloatingInput"
-                        [(ngModel)]="selectedHotel.address">
-                    <label for="addressFloatingInput">Adreça</label>
+            <div class="row mb-3">
+                <div class="col md-12 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="addressFloatingInput"
+                            [(ngModel)]="selectedHotel.address">
+                        <label for="addressFloatingInput">Adreça</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="row mb-3 justify-content-md-center">
+            <div class="row mb-3">
                 <div class="col md-12">
                     <div class="form-floating">
                         <select class="form-select" id="fromDestination" aria-label="Destinació origen"
@@ -58,11 +58,13 @@
                 </div>
             </div>
 
-            <div class="row mb-3 justify-content-md-center">
-                <div class="col md-12 mb-3">
-                    <label for="typeahead-basic">Comentaris adicionals</label>
-                    <textarea id="typeahead-basic" type="text" class="form-control"
-                        [(ngModel)]="selectedHotel.comment"></textarea>
+            <div class="row mb-3">
+                <div class="col md-12">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            style="height: 100px" [(ngModel)]="selectedHotel.comment"></textarea>
+                        <label for="floatingTextarea2">Comentaris adicionals</label>
+                    </div>
                 </div>
             </div>
 
@@ -70,8 +72,6 @@
 
     </div>
     <div class="modal-footer">
-        <button *ngIf="selectedHotel._id" type="submit" class="btn btn-danger"
-            (click)="removeHotel();modal.close('Close click')">Eliminar</button>
         <button *ngIf="!selectedHotel._id" type="submit" class="btn btn-primary"
             (click)="addNewHotel()">Guardar</button>
         <button *ngIf="selectedHotel._id" type="submit" class="btn btn-primary" (click)="updateHotel()">Guardar</button>
