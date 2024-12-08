@@ -8,14 +8,12 @@ import { TravelService } from '../../../core/services/travel.service';
 import { DatepickerComponent } from '../../../shared/components/datepicker/datepicker.component';
 import { Destination } from '../../../core/models/destination.model';
 import { DestinationService } from '../../../core/services/destination.service';
-import { JourneysComponent } from "../journeys/journeys.component";
-import { HotelsComponent } from '../hotels/hotels.component';
 import { TravelElementComponent } from "../../../shared/components/travel-element/travel-element.component";
 
 @Component({
   selector: 'app-destinations',
   standalone: true,
-  imports: [CommonModule, DatepickerComponent, FormsModule, NgbTypeaheadModule, JourneysComponent, HotelsComponent, TravelElementComponent],
+  imports: [CommonModule, DatepickerComponent, FormsModule, NgbTypeaheadModule, TravelElementComponent],
   templateUrl: './destinations.component.html',
   styleUrl: './destinations.component.scss'
 })
@@ -43,6 +41,7 @@ export class DestinationsComponent implements OnInit {
   }
 
   openDestinationModal(content: TemplateRef<any>, destination?: Destination) {
+    this.travel.journeys = [];
     this.selectedDestination = destination || this.newDestination();
     this.modalService.open(content, { centered: true, backdrop: 'static' });
   }

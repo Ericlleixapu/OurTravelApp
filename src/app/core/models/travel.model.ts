@@ -20,6 +20,7 @@ export class Travel {
     documents: TravelDocument[];
     members: User[];
     owner: User;
+    imageUrl?: String;
     dateFrom?: Date|null; 
     dateTo?: Date|null;
     createdOn: Date;

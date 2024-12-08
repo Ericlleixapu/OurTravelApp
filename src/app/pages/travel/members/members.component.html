@@ -6,7 +6,7 @@
   </div>
 
 <div class="row justify-content">
-    <div class="col-md-3 col-sm-6 col-xs-12 mb-3  align-self-center" *ngFor="let user of founds" (click)="addMember(user)">
+    <div class="col-md-3 col-sm-6 col-xs-12 mb-3  align-self-center" *ngFor="let user of founds" (click)="openModal(addModal,user)">
 
         <div class="card travel-card mb-3" style="border: none;">
             <div class="row g-0">
@@ -33,7 +33,7 @@
 
 <div class="row justify-content">
 
-    <div class="col-md-3 col-sm-6 col-xs-12 mb-3  align-self-center" *ngFor="let user of members" (click)="removeMember(user)">
+    <div class="col-md-3 col-sm-6 col-xs-12 mb-3  align-self-center" *ngFor="let user of members" (click)="openModal(deleteModal,user)">
 
         <div class="card travel-card mb-3" style="border: none;">
             <div class="row g-0">
@@ -55,3 +55,43 @@
     </div>
 
 </div>
+
+
+<ng-template #addModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Afegir {{selectedUser.name}} al viatge?
+        </h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Vols afegir l' usuari {{selectedUser.name}} {{selectedUser.surname}} al viatge?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="addMember(selectedUser);modal.dismiss('Cross click')">Afegir <i
+                class="bi bi-trash3-fill"></i></button>
+        <button type="button" class="btn btn-secondary"
+            (click)="modal.close('Close click')">Cancel·lar</button>
+    </div>
+</ng-template>
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Eliminar {{selectedUser.name}} del viatge?
+        </h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Estas segur que vols eliminar a {{selectedUser.name}} {{selectedUser.surname}} del viatge?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="removeMember(selectedUser);modal.dismiss('Cross click')">Eliminar <i
+                class="bi bi-trash3-fill"></i></button>
+        <button type="button" class="btn btn-secondary"
+            (click)="modal.close('Close click')">Cancel·lar</button>
+    </div>
+</ng-template>

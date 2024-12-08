@@ -1,5 +1,5 @@
 <div class="card travel-card" (click)="click()">
-    <img *ngIf="image !=''" [src]="image" class="card-img-top" alt="...">
+    <img *ngIf="image !=''" [src]="image" class="card-img-top destination-image" alt="..." style="height: 200px;">
     <i *ngIf="image ==''"  class="fa fa-{{logo}} fa-3x card-img-top text-primary" style="margin: 0.1em;" aria-hidden="true"></i>
     <div class="position-absolute top-0 end-0" style="padding:0.5em">
         <button type="button" class="btn btn-outline-primary btn-sm" (click)="remove = true;removeModal(deleteModal)"><i

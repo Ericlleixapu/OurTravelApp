@@ -53,6 +53,10 @@ $primary: #ED7D31;
     cursor: pointer;
 }
 
+.destination-image {
+    object-fit: cover;
+    width: 100%;
+}
 .travel-card {
     cursor: pointer;
     filter: contrast(99%) brightness(99%);

@@ -9,21 +9,21 @@
 
     <div *ngFor="let travel of travels" class="col-md-3 mb-3">
       <div class="card travel-card" (click)="null" (click)="goToTravel(travel)">
-        <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
+        <img [src]="travel.imageUrl||'http://localhost:3000/api/file/destinationImage/placeholderTravel.jpeg'" style="height: 300px;" class="card-img-top destination-image" alt="...">
         <div class="position-absolute top-0 end-0" style="padding:0.5em">
           <button type="button" class="btn btn-outline-primary btn-sm" (click)="removeTravelModal(travel._id,deleteModal)">Eliminar</button>
         </div>
 
         <div class="card-body">
           <h5 class="card-title">{{travel.name}}</h5>
-          <p class="card-text">15/05/2023 - 20/05/2023</p>
+          <p class="card-text">{{travel.dateFrom | date:'d/M/yy'}} - {{travel.dateTo | date:'d/M/yy'}}</p>
         </div>
       </div>
     </div>
-
+    
     <div class="col-md-3 mb-3">
       <div class="card travel-card" [routerLink]="'/travel'" (click)="createTravel()">
-        <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2" class="card-img-top" alt="...">
+        <img src="http://localhost:3000/api/file/destinationImage/placeholder.jpeg" style="height: 300px;" class="card-img-top destination-image" alt="...">
         <div class="card-body">
           <h5 class="card-title">Afegeix un nou viatge</h5>
           <p class="card-text">Una nova aventura comença aqui.</p>

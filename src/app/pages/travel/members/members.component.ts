@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { TravelService } from '../../../core/services/travel.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../core/services/user.service';
@@ -20,6 +20,7 @@ export class MembersComponent implements OnInit {
   public founds:User[] = [];
   public query = '';
   public travel: Travel = {} as Travel;
+  public selectedUser: User = {} as User;
 
   constructor(private travelService: TravelService, private modalService: NgbModal, private userService: UserService) { }
   async ngOnInit(){
@@ -47,6 +48,11 @@ async removeMember(user:User){
   await this.travelService.removeMember(this.travel,user);
   this.travel = await this.travelService.getTravelById(this.travel._id);
   this.members = this.travel.members;
+}
+
+openModal(deleteModal: TemplateRef<any>,user:User) {
+  this.selectedUser = user;
+  this.modalService.open(deleteModal, { centered: true, backdrop: 'static' });
 }
 
 }

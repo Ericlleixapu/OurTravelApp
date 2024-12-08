@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit {
 
   async uploadImage() {
     if (this.selectedFile) {
-      await this.uploadService.uploadImage(this.selectedFile);
+      await this.uploadService.uploadProfileImage(this.selectedFile);
       this.getUserProfile();
     }
   }

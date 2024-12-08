@@ -29,9 +29,9 @@ export class HotelsComponent {
   }
   async ngOnInit() {
 
-    this.travel = await this.travelService.getTravel()
+    this.travel = this.travelService.getTravel()
     this.destinations = this.travel.destinations;
-    this.hotels = await this.hotelService.getHotelsByTravel(this.travel._id);
+    this.hotels = this.travel.hotels;
 
     this.selectedHotel = this.newHotel();
   }

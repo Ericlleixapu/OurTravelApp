@@ -6,17 +6,25 @@ import { ExpensesComponent } from '../expenses/expenses.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { DocumentsComponent } from '../documents/documents.component';
 import { TravelService } from '../../../core/services/travel.service';
+import { MembersComponent } from '../members/members.component';
+import { JourneysComponent } from "../journeys/journeys.component";
+import { HotelsComponent } from '../hotels/hotels.component';
 import { Router } from '@angular/router';
 import { Travel } from '../../../core/models/travel.model';
-import { DestinationService } from '../../../core/services/destination.service';
-import { JourneyService } from '../../../core/services/journey.service';
-import { HotelService } from '../../../core/services/hotel.service';
-import { MembersComponent } from '../members/members.component';
-
 @Component({
   selector: 'app-travel-page',
   standalone: true,
-  imports: [CommonModule, DestinationsComponent, ActivitiesComponent, ExpensesComponent, GalleryComponent, DocumentsComponent,MembersComponent],
+  imports: [
+    CommonModule, 
+    DestinationsComponent, 
+    JourneysComponent, 
+    HotelsComponent, 
+    ActivitiesComponent, 
+    ExpensesComponent, 
+    GalleryComponent, 
+    DocumentsComponent,
+    MembersComponent
+  ],
   templateUrl: './travel-page.component.html',
   styleUrl: './travel-page.component.scss'
 })
@@ -28,24 +36,26 @@ export class TravelPageComponent implements OnInit {
   members: string = 'inactive';
   images: string = 'inactive';
   documents: string = 'inactive';
-
   travel: Travel = {} as Travel;
   ready: boolean = false;
 
   constructor(
     private travelService: TravelService,
-    private destinationService: DestinationService,
+    private router: Router
   ) { }
 
 
   async ngOnInit() {
     this.travel = this.travelService.getTravel();
 
-    if (!this.travel._id) {
+    if (this.travelService.newTravel) {
       await this.travelService.createTravel();
       this.travel = this.travelService.getTravel();
     }
-    this.travel.destinations = await this.destinationService.getDestinationsByTravel(this.travel._id);
+    if(this.travel._id == null){
+      this.router.navigate(['travels']);
+    }
+    this.travel = await this.travelService.getTravelById(this.travel._id);
     this.ready = true;
   }
 
@@ -77,10 +87,6 @@ export class TravelPageComponent implements OnInit {
         this.documents = 'active';
         break;
     }
-  }
-
-  updateTravel() {
-    this.travelService.updateTravel(this.travel);
   }
 
 }

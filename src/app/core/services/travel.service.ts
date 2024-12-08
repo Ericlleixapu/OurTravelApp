@@ -13,8 +13,11 @@ import { User } from '../models/user.model';
 export class TravelService {
 	private baseUrl = 'http://localhost:3000/api/travel';
 	private travel = {} as Travel;
+	public newTravel:boolean = false;
 
-	constructor(private http: HttpClient, private authService: AuthService, private notification: NotificationService) { }
+	constructor(private http: HttpClient, private authService: AuthService, private notification: NotificationService) { 
+		this.newTravel= false;
+	}
 
 	async getTravels(): Promise<Travel[]> {
 		const headers = this.getAuthHeaders();
@@ -39,6 +42,7 @@ export class TravelService {
 	}
 
 	async createTravel(): Promise<Travel> {
+		this.newTravel = false;
 		const headers = this.getAuthHeaders();
 		try {
 		let res = await lastValueFrom(this.http.post<{ message: String, travel: Travel }>(this.baseUrl, {}, { headers }));

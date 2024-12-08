@@ -1,13 +1,12 @@
-<h5 class="text-primary">Activitats <button type="button" class="btn btn-sm btn-outline-primary" (click)="null"><i
+<h5 class="text-primary">Activitats <button type="button" class="btn btn-sm btn-outline-primary" (click)="addNewImage()"><i
             class="fa-regular fa-plus"></i></button></h5>
+            <input id="inputprofileImage" type="file" accept="image/*" (change)="onFileSelected($event)" />
 
 <div class="row">
-
-    <div *ngFor="let travel of images" class="col-md-4 col-sm-6  mb-3">
+    <div *ngFor="let image of images" class="col-md-4 col-sm-6  mb-3">
         <div class="card travel-card" (click)="null">
-            <img src="https://images.unsplash.com/photo-1727259066904-a7a1e43c6a5d" class="card-img-top" alt="...">
+            <img [src]="image.imageUrl" class="card-img-top destination-image" style="height: 300px;" alt="...">
             <div class="card-body">
-                <h6 class="card-title">Image Title</h6>
                 <div class="mb-2" style="border-radius: 10px;border-color: grey;border: 1px;background-color: #f2f2f2; padding-left: 1em;padding-right: 1em;">
                     <p class="card-text">User: comentari</p>
                 </div>
@@ -17,7 +16,4 @@
             </div>
         </div>
     </div>
-
-
-
 </div>

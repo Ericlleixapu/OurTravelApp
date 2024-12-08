@@ -39,9 +39,8 @@ export class JourneysComponent {
   async ngOnInit() {
 
     this.travel = this.travelService.getTravel()
-    this.journeys = await this.journeyService.getJourneysByTravel(this.travel._id);
-    this.travel.journeys = this.journeys;
     this.destinations = this.travel.destinations;
+    this.journeys = this.travel.journeys;
     this.selectedJourney = this.newJourney();
   }
 

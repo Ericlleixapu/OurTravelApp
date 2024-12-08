@@ -31,15 +31,11 @@ export class ActivitiesComponent implements OnInit {
   public activityNgbTime = { hour: 0, minute: 0 };
 
   constructor(private modalService: NgbModal, private activityService: ActivityService, private travelService: TravelService) {
-    this.activities.push(this.newActivity())
-    this.activities.push(this.newActivity())
-    this.activities.push(this.newActivity())
-    this.activities.push(this.newActivity())
   }
 
   async ngOnInit() {
     this.travel = this.travelService.getTravel();
-    this.activities = await this.activityService.getActivitiesByTravel(this.travel._id);
+    this.activities = this.travel.activities;
   }
 
   openActivityModal(content: TemplateRef<any>, activity?: Activity) {
