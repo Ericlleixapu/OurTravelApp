@@ -44,6 +44,17 @@ export class UserService {
   getCurrentUser(): User {
     return this.currentUser;
   }
+
+  async searchUsers(query: string): Promise<User[]> {
+    try {
+      const headers = this.getAuthHeaders();
+      const res = await lastValueFrom(this.http.get<User[]>(this.baseUrl + '/search/'+query, {headers }))
+      return res;
+    } catch (error:unknown) {
+      return [];
+    }
+  }
+  
   // Actualitza el perfil de l'usuari
   async updateUserProfile(userData: Partial<User>): Promise<User> {
     const headers = this.getAuthHeaders();

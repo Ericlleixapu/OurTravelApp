@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { lastValueFrom, map, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from './notification.service';
+import { User } from '../models/user.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -23,6 +24,17 @@ export class TravelService {
 		} catch (error: unknown) {
 			this.notification.handleError(error, 'Error al carregar els viatges');
 			return [];
+		}
+	}
+	async getTravelById(id: string): Promise<Travel> {
+		const headers = this.getAuthHeaders();
+		try {
+			let res = await lastValueFrom(this.http.get<Travel>(this.baseUrl+'/'+id, { headers }));
+			this.travel = res;
+			return res;
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al carregar els viatges');
+			return {} as Travel;
 		}
 	}
 
@@ -50,6 +62,23 @@ export class TravelService {
 		}
 	}
 
+	async addMember(travel:Travel,member:User) {
+		const headers = this.getAuthHeaders();
+		try {
+		await lastValueFrom(this.http.put<{ message: String, travel: Travel }>(this.baseUrl+'/addMember/'+travel._id, member, { headers }));
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al actualitzar el viatge');
+		}
+	}
+
+	async removeMember(travel:Travel,member:User) {
+		const headers = this.getAuthHeaders();
+		try {
+		await lastValueFrom(this.http.put<{ message: String, travel: Travel }>(this.baseUrl+'/removeMember/'+travel._id, member, { headers }));
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al actualitzar el viatge');
+		}
+	}
 	async removeTravel(_id: string) {
 		const headers = this.getAuthHeaders();
 		try {

@@ -1,1 +1,57 @@
-<p>members works!</p>
+<h5 class="text-primary">Afegir membres</h5>
+
+<div class="mb-3">
+    <label for="userQueryInput" class="form-label">Cerca usuaris</label>
+    <input type="text" class="form-control" id="userQueryInput" placeholder="nom, cognoms, alies, email" (ngModelChange)="search()" [(ngModel)]="query">
+  </div>
+
+<div class="row justify-content">
+    <div class="col-md-3 col-sm-6 col-xs-12 mb-3  align-self-center" *ngFor="let user of founds" (click)="addMember(user)">
+
+        <div class="card travel-card mb-3" style="border: none;">
+            <div class="row g-0">
+                <div class="col-md-4 align-self-center">
+
+                    <img class="profile-image" *ngIf="user.profileImageUrl != null" [src]="user.profileImageUrl">
+                    <img class="profile-image" *ngIf="user.profileImageUrl == null"
+                        [src]="'assets/userPlaceholder.png'">
+                </div>
+                <div class="col-md-8 col-sm-10 col-xs-11">
+                    <div class="card-body">
+                        <h6 class="card-title">{{user.name}} {{user.surname}} </h6>
+                        <h6> {{user.alias}} </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<h5 class="text-primary">Membres</h5>
+
+<div class="row justify-content">
+
+    <div class="col-md-3 col-sm-6 col-xs-12 mb-3  align-self-center" *ngFor="let user of members" (click)="removeMember(user)">
+
+        <div class="card travel-card mb-3" style="border: none;">
+            <div class="row g-0">
+                <div class="col-md-4 align-self-center">
+
+                    <img class="profile-image" *ngIf="user.profileImageUrl != null" [src]="user.profileImageUrl">
+                    <img class="profile-image" *ngIf="user.profileImageUrl == null"
+                        [src]="'assets/userPlaceholder.png'">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h6 class="card-title">{{user.name}} {{user.surname}} </h6>
+                        <h6> {{user.alias}} </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
