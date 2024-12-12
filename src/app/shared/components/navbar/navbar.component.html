@@ -17,7 +17,7 @@
 						<i class="fa-regular fa-user"></i></a>
 				</li>
 				<li *ngIf="this.userService.getCurrentUser()._id" class="nav-item">
-					<a class="nav-link" [routerLink]="'/profile'" (click)="isMenuCollapsed = true">{{this.userService.getCurrentUser().name}}
+					<a class="nav-link" [routerLink]="'/profile'" (click)="isMenuCollapsed = true">{{this.userService.getCurrentUser().alias}}
 
 						<img style="width: 30px;margin-left: 5px;" class="profile-image float-end"
 						*ngIf="this.userService.getCurrentUser().profileImage !=null"

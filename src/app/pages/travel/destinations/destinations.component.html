@@ -21,7 +21,7 @@
 
 <ng-template #newDestinationModal let-modal>
     <div class="modal-header">
-        <h4 class="modal-title text-primary">Nova destinació</h4>
+        <h4 class="modal-title text-primary">{{selectedDestination.location||'Nova destinació'}}</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
     </div>
     <div class="modal-body">

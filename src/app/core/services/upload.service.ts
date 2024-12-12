@@ -27,6 +27,15 @@ export class UploadService {
     return await lastValueFrom(this.http.post<any>(this.apiUrl + 'travelImage', formData,{ headers }));
   }
 
+  async uploadTravelDocument(file: File): Promise<any> {
+    
+    const headers = this.getAuthHeaders();
+
+    const formData = new FormData();
+    formData.append('travelDocument', file);
+    return await lastValueFrom(this.http.post<any>(this.apiUrl + 'travelDocument', formData,{ headers }));
+  }
+
   async uploadProfileImage(file: File): Promise<any> {
     
     const headers = this.getAuthHeaders();

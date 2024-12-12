@@ -1,19 +1,65 @@
-<h5 class="text-primary">Activitats <button type="button" class="btn btn-sm btn-outline-primary" (click)="addNewImage()"><i
-            class="fa-regular fa-plus"></i></button></h5>
-            <input id="inputprofileImage" type="file" accept="image/*" (change)="onFileSelected($event)" />
+<h5 class="text-primary">Imatges <label for="inputTravelImage"><a type="button"
+            class="btn btn-sm btn-outline-primary"><i class="fa-regular fa-plus"></i></a></label></h5>
+<input id="inputTravelImage" type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;" />
 
 <div class="row">
     <div *ngFor="let image of images" class="col-md-4 col-sm-6  mb-3">
-        <div class="card travel-card" (click)="null">
-            <img [src]="image.imageUrl" class="card-img-top destination-image" style="height: 300px;" alt="...">
-            <div class="card-body">
-                <div class="mb-2" style="border-radius: 10px;border-color: grey;border: 1px;background-color: #f2f2f2; padding-left: 1em;padding-right: 1em;">
-                    <p class="card-text">User: comentari</p>
-                </div>
-                <div class="mb-2" style="border-radius: 10px;border-color: grey;border: 1px;background-color: #f2f2f2; padding-left: 1em;padding-right: 1em;">
-                    <p class="card-text">User: comentari</p>
-                </div>
+        <div class="card travel-card" (click)="openModal(seeImage,image)">
+            <img [src]="image.imageUrl||'assets/imagePlaceholder.png'" class="card-img-top destination-image"
+                style="height: 300px" alt="...">
+            <div *ngIf="image.comments.length > 0" class="position-absolute top-0 end-0"
+                style="padding:0.5em;opacity:0.9">
+                <i class="fa fa-comment text-primary fa-2x" aria-hidden="true"></i>
             </div>
         </div>
     </div>
 </div>
+<div *ngIf="images.length == 0">
+    <div class="alert alert-primary" role="alert">
+        Encara res per aqui.
+    </div>
+</div>
+
+
+<ng-template #seeImage let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Imatge
+        </h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="null ;modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+        <img [src]="selectedImage.imageUrl||'assets/imagePlaceholder.png'" class="card-img-top destination-image mb-3">
+        <div  class="alert alert-primary" role="alert" *ngFor="let comment of selectedImage.comments">
+            {{comment}}
+        </div>
+        <div class="input-group mb-3">
+            <textarea type="text" class="form-control" placeholder="Recipient's username"
+                aria-label="Recipient's username" aria-describedby="button-addon2" [(ngModel)]="newComment"></textarea>
+            <button class="btn btn-outline-primary" type="button" id="button-addon2"
+                (click)="addComment()">Publicar</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="openDeleteModal(deleteModal)">Eliminar</button>
+        <button type="button" class="btn btn-success" (click)="downloadImage(selectedImage)">Descarregar</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel·lar</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">Eliminar Imatge
+        </h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Estas segur que vols eliminar la Imatge? Aquesta acció no es pot desfer.
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="removeImage(selectedImage);modal.dismiss('Cross click')">Eliminar</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel·lar</button>
+    </div>
+</ng-template>

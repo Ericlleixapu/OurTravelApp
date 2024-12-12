@@ -20,21 +20,27 @@ export class TravelElementComponent {
   @Input() dateTo: Date|null = null;
 
   @Output() onClick = new EventEmitter<void>();
+  @Output() onEdit = new EventEmitter<void>();
   @Output() onDelete = new EventEmitter<void>();
 
   public remove: boolean = false;
+  public edit: boolean = false;
 
   constructor(private modalService: NgbModal) {}
 
   click() {
-    if(!this.remove){
+    if(!this.remove&&!this.edit){
       this.onClick.emit();
     }
     this.remove = false;
+    this.edit = false;
   }
 
   removeClick(){
     this.onDelete.emit();
+  }
+  editClick(){
+    this.onEdit.emit();
   }
 
   removeModal(deleteModal: TemplateRef<any>) {

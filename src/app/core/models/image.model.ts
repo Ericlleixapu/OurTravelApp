@@ -4,6 +4,7 @@ export interface Image{
     _id?:string
     filename: string;
     imageUrl: string;
+    fileType: string;
     description?: string;
     owner: User;
     viewers?: User[];

@@ -1,19 +1,61 @@
-
-<h5 class="text-primary">Activitats <button type="button" class="btn btn-sm btn-outline-primary"
-    (click)="null"><i class="fa-regular fa-plus"></i></button></h5>
+<h5 class="text-primary">Documents <label for="inputDocument"><a type="button" class="btn btn-sm btn-outline-primary"><i
+                class="fa-regular fa-plus"></i></a></label></h5>
+<input id="inputDocument" type="file" (change)="onFileSelected($event)" style="display: none;" />
 
 <div class="row">
 
-    <div *ngFor="let travel of documents" class="col-lg-2 col-md-3 col-sm-4  mb-3">
-        <div class="card travel-card" (click)="null">
-            <div class="card-body">
-                <h6 class="card-title"><i class="fa fa-file-text fa-2x" aria-hidden="true"></i> PDF</h6>
-                <h6 class="card-title"> Entrada sagrada familia</h6>
-                <p class="card-text">Eric</p>
-            </div>
+    <div *ngFor="let document of documents" class="col-lg-2 col-md-3 col-sm-4  mb-3">
+        <app-travel-element [name]="document.name" [type]="'document'" [description]="document.comment||''"
+            [dateFrom]="document.uploadDate" [logo]="DocumentIcon[document.fileType]||'file'"
+            (onClick)="downloadDocument(document)" (onEdit)="openModal(documentModal,document)"
+            (onDelete)="removeDocument(document)">
+        </app-travel-element>
+
+    </div>
+
+    <div *ngIf="documents.length == 0">
+        <div class="alert alert-primary" role="alert">
+            Encara res per aqui.
         </div>
     </div>
 
 
-
 </div>
+
+<ng-template #documentModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-primary">{{selectedDocument.name}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container">
+
+            <div class="row mb-3">
+                <div class="col md-12 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="nameFloatingInput" [(ngModel)]="selectedDocument.name">
+                        <label for="nameFloatingInput">Nom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col md-12">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            style="height: 100px" [(ngModel)]="selectedDocument.comment"></textarea>
+                        <label for="floatingTextarea2">Comentaris adicionals</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="updateDocument()">Guardar</button>
+        <button type="button" class="btn btn-success" (click)="downloadDocument(selectedDocument)">Descarregar</button>
+        <button type="submit" class="btn btn-secondary" (click)="modal.close('Close click')">Tanca</button>
+    </div>
+</ng-template>

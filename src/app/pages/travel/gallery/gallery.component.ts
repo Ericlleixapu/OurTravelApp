@@ -7,7 +7,6 @@ import { Travel } from '../../../core/models/travel.model';
 import { Destination } from '../../../core/models/destination.model';
 import { Image } from '../../../core/models/image.model';
 import { FormsModule } from '@angular/forms';
-import { UploadService } from '../../../core/services/upload.service';
 
 @Component({
   selector: 'app-gallery',
@@ -20,25 +19,22 @@ export class GalleryComponent {
 
   travel: Travel = {} as Travel;
   selectedImage: Image = {} as Image;
-  selectedFile: File |null= null;
+  selectedFile: File | null = null;
   destinations: Destination[] = [];
-  token: string = '';
+  newComment: string = '';
 
   public images: Image[] = [];
 
   constructor(
     private travelService: TravelService,
     private modalService: NgbModal,
-    private imageService: ImageService,
-  ) {
+    private imageService: ImageService
+    ) {
   }
   async ngOnInit() {
-    this.token = this.imageService.getToken();
-    this.travel = await this.travelService.getTravel()
+    this.travel = this.travelService.getTravel()
     this.destinations = this.travel.destinations;
     this.images = await this.imageService.getImagesByTravel(this.travel._id);
-
-    this.selectedImage = this.newImage();
   }
 
 
@@ -46,29 +42,44 @@ export class GalleryComponent {
     return item1 && item2 ? item1._id === item2._id : item1 === item2;
   }
 
-  openAddNewImage(content: TemplateRef<any>, image?: Image) {
-    this.selectedImage = image || this.newImage();
-    this.modalService.open(content, { centered: true, backdrop: 'static' });
+  openModal(content: TemplateRef<any>, image: Image) {
+    this.newComment = '';
+    this.selectedImage = image;
+    this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
-  newImage(): Image {
-    return {} as Image;
+  openDeleteModal(content: TemplateRef<any>) {
+    this.modalService.open(content, { centered: true});
+  }
+
+  downloadImage(image: Image) {
+    const a = document.createElement('a');
+    a.href = image.imageUrl;
+    a.download = image.filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+  async addComment(){
+    let image = await this.imageService.addComment(this.selectedImage, this.newComment);
+    this.images = await this.imageService.getImagesByTravel(this.travel._id);
+    this.selectedImage.comments = image.comments;
+    this.newComment = '';
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-    }
+    this.selectedFile = file;
+    this.addNewImage();
   }
 
   async addNewImage() {
-    if (this.checkImageForm() && this.selectedFile!=null) {
+    if (this.checkImageForm() && this.selectedFile != null) {
       this.selectedImage.travelId = this.travel._id;
       await this.imageService.addImage(this.selectedImage, this.selectedFile);
       this.images = await this.imageService.getImagesByTravel(this.travel._id);
       this.modalService.dismissAll();
-    } 
+    }
   }
   async updateImage() {
     if (this.checkImageForm()) {
@@ -81,6 +92,7 @@ export class GalleryComponent {
   async removeImage(image: Image) {
     await this.imageService.deleteImage(image);
     this.images = await this.imageService.getImagesByTravel(this.travel._id);
+    this.modalService.dismissAll();
   }
 
   checkImageForm() {

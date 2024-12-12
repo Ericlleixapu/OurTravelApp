@@ -12,6 +12,9 @@
         <p *ngIf="type =='trajecte' && !dateFrom" class="card-text">{{dateTo | date:'d/M/yy H:mm'}}</p>
         <p *ngIf="type !='trajecte'" class="card-text">{{dateFrom | date:'d/M/yy'}} <br> {{dateTo | date:'d/M/yy'}}</p>
     </div>
+    <div *ngIf="type == 'document'" class="position-absolute bottom-0 end-0" style="padding:0.5em">
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="edit = true;editClick()"><i class="fa-solid fa-pen"></i></button>
+    </div>
 </div>
 
 

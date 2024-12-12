@@ -22,7 +22,7 @@
 
 <ng-template #modal let-modal>
     <div class="modal-header">
-        <h4 class="modal-title text-primary">Nova activitat</h4>
+        <h4 class="modal-title text-primary">{{selectedActivity.name||'Nova activitat'}}</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
     </div>
     <div class="modal-body">

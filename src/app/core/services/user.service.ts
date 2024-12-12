@@ -33,7 +33,7 @@ export class UserService {
   async getUserProfile(): Promise<User> {
     try {
       const headers = this.getAuthHeaders();
-      const res = await this.http.get<User>(this.baseUrl + '/profile', { headers });
+      const res = this.http.get<User>(this.baseUrl + '/profile', { headers });
       this.currentUser = await lastValueFrom(res);
       return lastValueFrom(res);
     } catch (error) {

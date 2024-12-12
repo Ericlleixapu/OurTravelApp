@@ -5,8 +5,7 @@
 
         <div class="col-md-3">
             <label for="inputprofileImage">
-                <img class="profile-image float-end" *ngIf="user.profileImage !=null" [src]="user.profileImageUrl">
-                <img class="profile-image float-end" *ngIf="user.profileImage ==null" [src]="'assets/userPlaceholder.png'">
+                <img class="profile-image float-end" [src]="user.profileImageUrl||'assets/userPlaceholder.png'">
             </label>
             <input id="inputprofileImage" type="file" (change)="onFileSelected($event)" style="display: none"/>
         </div>

@@ -38,9 +38,10 @@ export class ImageService {
     const headers = this.getAuthHeaders();
 
     try {
-      const blob = await lastValueFrom(
-        this.http.get(image.imageUrl, { headers, responseType: 'blob' })
-      );
+      const url = image.imageUrl;
+      image.imageUrl = '';
+      const file = await lastValueFrom(this.http.get(url, { headers, responseType: 'blob' }));
+      const blob = new Blob([file], { type: image.fileType });
       image.imageUrl = URL.createObjectURL(blob);
     } catch (err) {
       console.error('Error loading image', err);
@@ -54,7 +55,7 @@ export class ImageService {
       if (res.ok) {
         image.filename = res.filename;
         image.imageUrl = res.imageUrl;
-        console.log(res);
+        image.fileType = file.type;
         res = await lastValueFrom(this.http.post<Image>(this.baseUrl, image, { headers }));
         return res;
       } else {
@@ -70,6 +71,17 @@ export class ImageService {
     const headers = this.getAuthHeaders();
     try {
       let res = await lastValueFrom(this.http.put<Image>(this.baseUrl + '/' + image._id, image, { headers }));
+      return res;
+    } catch (error: unknown) {
+      this.notification.handleError(error, 'Error al modificar la imatge');
+      return {} as Image;
+    }
+  }
+
+  async addComment(image: Image,comment: string): Promise<Image> {
+    const headers = this.getAuthHeaders();
+    try {
+      let res = await lastValueFrom(this.http.put<Image>(this.baseUrl + '/comment/' + image._id, {comment:comment}, { headers }));
       return res;
     } catch (error: unknown) {
       this.notification.handleError(error, 'Error al modificar la imatge');
