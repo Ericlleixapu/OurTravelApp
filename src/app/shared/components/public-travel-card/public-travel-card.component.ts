@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../core/models/user.model';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../../core/services/notification.service';
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'app-public-travel-card',
@@ -20,6 +21,7 @@ export class PublicTravelCardComponent {
 
   public user = {} as User;
   public function = false;
+  public environment = environment;
 
   constructor(
     private travelService: TravelService, 

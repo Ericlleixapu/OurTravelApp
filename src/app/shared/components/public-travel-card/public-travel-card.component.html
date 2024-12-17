@@ -1,5 +1,5 @@
 <div class="card travel-card" (click)="goToTravel(travel)">
-    <img [src]="travel.imageUrl||'http://localhost:3000/api/file/destinationImage/placeholderTravel.jpeg'"
+    <img [src]="environment.apiUrl + 'file/destinationImage/' + travel.imageFile||'http://localhost:3000/api/file/destinationImage/placeholderTravel.jpeg'"
       style="height: 300px;" class="card-img-top destination-image" alt="...">
       <div *ngIf="!travel.followers.includes(user._id)" class="position-absolute top-0 end-0" style="padding:0.5em"><i class="fa-regular fa-compass fa-2x fake-button" (click)="function = true;addFollower(travel)"></i>
       </div>

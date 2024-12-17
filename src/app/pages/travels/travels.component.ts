@@ -5,6 +5,7 @@ import { TravelService } from '../../core/services/travel.service';
 import { Travel } from '../../core/models/travel.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PublicTravelCardComponent } from "../../shared/components/public-travel-card/public-travel-card.component";
+import { environment } from '../../environment';
 @Component({
   selector: 'app-travels',
   standalone: true,
@@ -16,6 +17,7 @@ export class TravelsComponent implements OnInit {
 
   public travels: Travel[] = [];
   public followedTravels: Travel[] = [];
+  public environment = environment;
   
   public travelId: string = '';
   public function = false;

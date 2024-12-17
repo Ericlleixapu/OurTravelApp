@@ -4,12 +4,14 @@ import { lastValueFrom } from 'rxjs';
 import { User } from '../models/user.model'; // Assegura't que tens un model d'usuari definit
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'http://localhost:3000/api/user';
+  
+    private baseUrl = environment.apiUrl + 'user';
   private currentUser: User = {} as User;
 
   constructor(private http: HttpClient, private authService: AuthService, private notificationService: NotificationService) {

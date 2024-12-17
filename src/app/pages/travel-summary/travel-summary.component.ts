@@ -9,6 +9,7 @@ import { Activity, ActivityIcon } from '../../core/models/activity.model';
 import { Destination } from '../../core/models/destination.model';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user.model';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-travel-summary',
@@ -19,6 +20,8 @@ import { User } from '../../core/models/user.model';
 })
 export class TravelSummaryComponent implements OnInit {
 
+  environment = environment;
+  baseUrl = environment.apiUrl + 'file/destinationImage/';
   public user = {} as User;
   public travel: Travel = {} as Travel;
   public ActivityIcon = ActivityIcon;

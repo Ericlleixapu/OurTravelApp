@@ -5,15 +5,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Image } from '../models/image.model';
 import { UploadService } from './upload.service';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
 
-  private server = 'http://localhost:3000';
-  private baseUrl = this.server+'/api/image';
-  private baseFileUrl = this.server+'/api/file';
+  private server = environment.apiUrl;
+  private baseUrl = this.server + 'image';
+  private baseFileUrl = this.server + 'file';
 
   constructor(
     private authService: AuthService,
@@ -40,7 +41,7 @@ export class ImageService {
     const headers = this.getAuthHeaders();
 
     try {
-      const file = await lastValueFrom(this.http.get(this.baseFileUrl+'/travelImage/' + image.filename, { headers, responseType: 'blob' }));
+      const file = await lastValueFrom(this.http.get(this.baseFileUrl + '/travelImage/' + image.filename, { headers, responseType: 'blob' }));
       const blob = new Blob([file], { type: image.fileType });
       image.imageUrl = URL.createObjectURL(blob);
     } catch (err) {
@@ -78,10 +79,10 @@ export class ImageService {
     }
   }
 
-  async addComment(image: Image,comment: string): Promise<Image> {
+  async addComment(image: Image, comment: string): Promise<Image> {
     const headers = this.getAuthHeaders();
     try {
-      let res = await lastValueFrom(this.http.put<Image>(this.baseUrl + '/comment/' + image._id, {comment:comment}, { headers }));
+      let res = await lastValueFrom(this.http.put<Image>(this.baseUrl + '/comment/' + image._id, { comment: comment }, { headers }));
       return res;
     } catch (error: unknown) {
       this.notification.handleError(error, 'Error al modificar la imatge');

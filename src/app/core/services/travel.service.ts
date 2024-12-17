@@ -5,12 +5,13 @@ import { AuthService } from './auth.service';
 import { lastValueFrom } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { User } from '../models/user.model';
+import { environment } from '../../environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class TravelService {
-	private baseUrl = 'http://localhost:3000/api/travel';
+	  private baseUrl = environment.apiUrl +'travel';
 	private travel = {} as Travel;
 	public newTravel: boolean = false;
 

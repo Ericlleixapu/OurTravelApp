@@ -7,4 +7,5 @@ export interface Destination{
     comment?:string;
     travelId:string
     imageUrl?:string
+    imageFile?:string
 }

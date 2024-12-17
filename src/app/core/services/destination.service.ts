@@ -1,16 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Destination } from '../models/destination.model';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DestinationService {
 
-  private baseUrl = 'http://localhost:3000/api/destination';
+  private baseUrl = environment.apiUrl +'destination';
   private countryList: string[] = [];
 
   constructor(private authService: AuthService, private http: HttpClient, private notification: NotificationService) {

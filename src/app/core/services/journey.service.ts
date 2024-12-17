@@ -1,16 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Journey } from '../models/journey.model';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JourneyService {
 
-  private baseUrl = 'http://localhost:3000/api/journey';
+    private baseUrl = environment.apiUrl +'journey';
 
   constructor(private authService: AuthService, private http: HttpClient, private notification: NotificationService) { }
 

@@ -4,13 +4,14 @@ import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
 import { Activity } from '../models/activity.model';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActivityService {
 
-  private baseUrl = 'http://localhost:3000/api/activity';
+  private baseUrl = environment.apiUrl + 'activity';
 
   constructor(private authService: AuthService, private http: HttpClient, private notification: NotificationService) { }
 

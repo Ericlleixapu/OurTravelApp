@@ -22,7 +22,7 @@ export class Travel {
     members: User[];
     owner: User;
     public: boolean = false;
-    imageUrl?: String;
+    imageFile?: String;
     dateFrom?: Date|null; 
     dateTo?: Date|null;
     createdOn: Date;

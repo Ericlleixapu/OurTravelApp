@@ -10,27 +10,31 @@
 
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" [routerLink]="'/'" (click)="isMenuCollapsed = true">Home <i class="fa-solid fa-home"></i></a>
+					<a class="nav-link" [routerLink]="'/'" (click)="isMenuCollapsed = true">Home <i
+							class="fa-solid fa-home"></i></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" [routerLink]="'/travels'" (click)="isMenuCollapsed = true">Els meus viatges <i class="fa-solid fa-earth-europe"></i></a>
+					<a class="nav-link" [routerLink]="'/travels'" (click)="isMenuCollapsed = true">Els meus viatges <i
+							class="fa-solid fa-earth-europe"></i></a>
 				</li>
 				<li *ngIf="!this.userService.getCurrentUser()._id" class="nav-item">
 					<a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true"> Iniciar sessió
 						<i class="fa-solid fa-user"></i></a>
 				</li>
 				<li *ngIf="this.userService.getCurrentUser()._id" class="nav-item">
-					<a class="nav-link" [routerLink]="'/profile'" (click)="isMenuCollapsed = true">{{this.userService.getCurrentUser().alias}}
+					<a class="nav-link" [routerLink]="'/profile'"
+						(click)="isMenuCollapsed = true">{{this.userService.getCurrentUser().alias}}
 
 						<img style="width: 30px;margin-left: 5px;" class="profile-image float-end"
-						*ngIf="this.userService.getCurrentUser().profileImage !=null"
-						[src]="this.userService.getCurrentUser().profileImageUrl">
-					<img  style="width: 30px;margin-left: 5px;" class="profile-image float-end" *ngIf="this.userService.getCurrentUser().profileImage ==null"
-						[src]="'assets/userPlaceholder.png'">
+							*ngIf="this.userService.getCurrentUser().profileImage !=null"
+							[src]="environment.apiUrl+'file/profileImage/'+this.userService.getCurrentUser().profileImage">
+						<img style="width: 30px;margin-left: 5px;" class="profile-image float-end"
+							*ngIf="this.userService.getCurrentUser().profileImage ==null"
+							[src]="'assets/userPlaceholder.png'">
 
 
 					</a>
-					
+
 				</li>
 			</ul>
 		</div>

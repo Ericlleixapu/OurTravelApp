@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { lastValueFrom, Observable, tap } from 'rxjs';
 import { User } from '../models/user.model';
 import { NotificationService } from './notification.service';
+import { environment } from '../../environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private baseUrl = 'http://localhost:3000/api/auth';
+
+    private baseUrl = environment.apiUrl + 'auth';
     private tokenKey = 'authToken'; // Clau per emmagatzemar el token
 
     constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) { }

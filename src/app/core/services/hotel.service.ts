@@ -4,13 +4,14 @@ import { Hotel } from '../models/hotel.model';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HotelService {
 
-  private baseUrl = 'http://localhost:3000/api/hotel';
+  private baseUrl = environment.apiUrl + 'hotel';
 
   constructor(private authService: AuthService, private http: HttpClient, private notification: NotificationService) { }
 

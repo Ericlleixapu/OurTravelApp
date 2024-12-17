@@ -9,6 +9,7 @@ import { DatepickerComponent } from '../../../shared/components/datepicker/datep
 import { Destination } from '../../../core/models/destination.model';
 import { DestinationService } from '../../../core/services/destination.service';
 import { TravelElementComponent } from "../../../shared/components/travel-element/travel-element.component";
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'app-destinations',
@@ -22,6 +23,7 @@ export class DestinationsComponent implements OnInit {
   travel: Travel = {} as Travel;
   selectedDestination: Destination = {} as Destination;
 
+  public environment = environment
   public destinations: Destination[] = [];
   public countries: string[] = [];
   public cities: string[] = [];

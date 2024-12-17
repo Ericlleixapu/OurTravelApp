@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DestinationsComponent } from '../destinations/destinations.component';
 import { ActivitiesComponent } from '../activities/activities.component';
-import { ExpensesComponent } from '../expenses/expenses.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { DocumentsComponent } from '../documents/documents.component';
 import { TravelService } from '../../../core/services/travel.service';
@@ -20,7 +19,6 @@ import { Travel } from '../../../core/models/travel.model';
     JourneysComponent, 
     HotelsComponent, 
     ActivitiesComponent, 
-    ExpensesComponent, 
     GalleryComponent, 
     DocumentsComponent,
     MembersComponent
@@ -32,7 +30,6 @@ export class TravelPageComponent implements OnInit {
 
   destinations: string = 'active';
   activities: string = 'inactive';
-  expenses: string = 'inactive';
   members: string = 'inactive';
   images: string = 'inactive';
   documents: string = 'inactive';
@@ -62,7 +59,6 @@ export class TravelPageComponent implements OnInit {
   changeTab(tab: string) {
     this.destinations = 'inactive';
     this.activities = 'inactive';
-    this.expenses = 'inactive';
     this.members = 'inactive';
     this.images = 'inactive';
     this.documents = 'inactive';
@@ -73,9 +69,6 @@ export class TravelPageComponent implements OnInit {
         break;
       case 'activities':
         this.activities = 'active';
-        break;
-      case 'expenses':
-        this.expenses = 'active';
         break;
       case 'images':
         this.images = 'active';

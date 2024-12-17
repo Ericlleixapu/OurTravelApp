@@ -9,7 +9,7 @@
 
     <div *ngFor="let travel of travels" class="col-md-3 mb-3">
       <div class="card travel-card" (click)="null" (click)="goToTravel(travel)">
-        <img [src]="travel.imageUrl||'http://localhost:3000/api/file/destinationImage/placeholderTravel.jpeg'"
+        <img [src]="environment.apiUrl + 'file/destinationImage/' + travel.imageFile"
           style="height: 300px;" class="card-img-top destination-image" alt="...">
         <div class="position-absolute top-0 end-0" style="padding:0.5em">
           <button type="button" class="btn btn-primary btn-sm"

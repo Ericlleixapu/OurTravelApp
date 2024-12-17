@@ -9,7 +9,7 @@
     <div class="row justify-content mb-3" *ngFor="let act of sortedActivities">
         <h4 class="text-primary">{{act.destination.location}} {{act.destination.dateTo | date : 'd/M/yy'}} -
             {{act.destination.dateFrom | date : 'd/M/yy'}}</h4>
-        <div class="dest-image" style="background-image: url('{{act.destination.imageUrl}}')">
+        <div class="dest-image" style="background-image: url('{{baseUrl + act.destination.imageFile}}')">
             <div class="row mt-3">
                 <div *ngFor="let activity of act.activities" class="col-md-2 col-sm-3  mb-3">
                     <app-travel-element [description]="activity.name" [logo]="ActivityIcon[activity.type]"
