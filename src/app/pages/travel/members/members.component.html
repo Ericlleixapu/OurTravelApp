@@ -12,8 +12,8 @@
             <div class="row g-0">
                 <div class="col-md-4 align-self-center">
 
-                    <img class="profile-image" *ngIf="user.profileImageUrl != null" [src]="user.profileImageUrl">
-                    <img class="profile-image" *ngIf="user.profileImageUrl == null"
+                    <img class="profile-image" *ngIf="user.profileImage != null" [src]="environment.apiUrl+'file/profileImage/'+user.profileImage">
+                    <img class="profile-image" *ngIf="user.profileImage == null"
                         [src]="'assets/userPlaceholder.png'">
                 </div>
                 <div class="col-md-8 col-sm-10 col-xs-11">
@@ -39,8 +39,8 @@
             <div class="row g-0">
                 <div class="col-md-4 align-self-center">
 
-                    <img class="profile-image" *ngIf="user.profileImageUrl != null" [src]="user.profileImageUrl">
-                    <img class="profile-image" *ngIf="user.profileImageUrl == null"
+                    <img class="profile-image" *ngIf="user.profileImage != null" [src]="environment.apiUrl+'file/profileImage/'+user.profileImage">
+                    <img class="profile-image" *ngIf="user.profileImage == null"
                         [src]="'assets/userPlaceholder.png'">
                 </div>
                 <div class="col-md-8">

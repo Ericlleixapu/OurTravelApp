@@ -9,7 +9,9 @@
 
     <div *ngFor="let travel of travels" class="col-md-3 mb-3">
       <div class="card travel-card" (click)="null" (click)="goToTravel(travel)">
-        <img [src]="environment.apiUrl + 'file/destinationImage/' + travel.imageFile"
+        <img *ngIf="travel.imageFile" [src]="environment.apiUrl + 'file/destinationImage/' + travel.imageFile"
+          style="height: 300px;" class="card-img-top destination-image" alt="...">
+        <img *ngIf="!travel.imageFile" [src]="environment.apiUrl + 'file/destinationImage/placeholderTravel.jpeg'"
           style="height: 300px;" class="card-img-top destination-image" alt="...">
         <div class="position-absolute top-0 end-0" style="padding:0.5em">
           <button type="button" class="btn btn-primary btn-sm"
@@ -31,7 +33,7 @@
 
     <div class="col-md-3 mb-3">
       <div class="card travel-card" [routerLink]="'/travel'" (click)="createTravel()">
-        <img src="http://localhost:3000/api/file/destinationImage/placeholder.jpeg" style="height: 300px;"
+        <img [src]="environment.apiUrl + 'file/destinationImage/placeholder.jpeg'" style="height: 300px;"
           class="card-img-top destination-image" alt="...">
         <div class="card-body">
           <h5 class="card-title">Afegeix un nou viatge</h5>
