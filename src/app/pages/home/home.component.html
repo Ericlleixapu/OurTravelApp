@@ -1,40 +1,25 @@
-<div class="container smallContainer">
-    <h3 class="text-primary">Comença el teu viatge amb nosaltres.</h3>
+<div class="container mainContainer">
 
-      @if (images) {
-        <ngb-carousel>
-            <ng-template ngbSlide>
-                <div class="picsum-img-wrapper">
-                    <img class="carousel-image" [src]="images[0]" alt="Random first slide" />
-                </div>
-                <div class="carousel-caption">
-                    <h3>First slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <div class="picsum-img-wrapper">
-                    <img class="carousel-image" [src]="images[1]" alt="Random second slide" />
-                </div>
-                <div class="carousel-caption">
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <div class="picsum-img-wrapper">
-                    <img class="carousel-image" [src]="images[2]" alt="Random third slide" />
-                </div>
-                <div class="carousel-caption">
-                    <h3>Third slide label</h3>
-                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                </div>
-            </ng-template>
-        </ngb-carousel>
-    }
-    <div class="d-grid">
-    <button class="btn mt-3 btn-primary" type="button"  [routerLink]="'/login'">Inicia Sessió</button>
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="text-primary">Troba el viatge dels teus somnis</h3>
     </div>
+    <div class="col-md-8">
+      <div class="form-floating mb-3">
+        <input id="floatingInput" type="text" class="form-control" [ngbTypeahead]="searchCountry" [(ngModel)]="query"
+          (ngModelChange)="getTravelsByCountry()" />
+        <label for="floatingInput"><i class="fa fa-magnifying-glass"></i> Busca el pais on vols viajar</label>
+      </div>
+    </div>
+  </div>
 
+  <div class="row justify-content-center">
+    <div *ngFor="let travel of travels" class="col-md-3 mb-3">
+
+      <app-public-travel-card [travel]="travel"></app-public-travel-card>
+
+
+    </div>
+  </div>
 
 </div>

@@ -20,14 +20,14 @@ export class LoginComponent {
   constructor(private userService: UserService,  private router: Router) { }
 
   async register() {
-    if (UserService.checkData(this.newUser.email, this.newUser.password, this.passwordConfirm)) {
+    if (this.userService.checkData(this.newUser.email, this.newUser.password, this.passwordConfirm)) {
       await this.userService.register(this.newUser);
     }
   }
 
   async login() {
 
-    if (UserService.checkData(this.loginEmail)) {
+    if (this.userService.checkData(this.loginEmail)) {
       let res = await this.userService.login(this.loginEmail, this.loginPassword);
 
       if (res.ok) {

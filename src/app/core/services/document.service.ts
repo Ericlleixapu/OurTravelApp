@@ -11,7 +11,9 @@ import { UploadService } from './upload.service';
 })
 export class DocumentService {
 
-    private baseUrl = 'http://localhost:3000/api/document';
+    private server = 'http://localhost:3000';
+    private baseUrl = this.server+'/api/document';
+    private baseFileUrl = this.server+'/api/file';
   
     constructor(
       private authService: AuthService,
@@ -38,9 +40,7 @@ export class DocumentService {
       const headers = this.getAuthHeaders();
   
       try {
-        const url = document.documentUrl;
-        document.documentUrl = '';
-        const file = await lastValueFrom(this.http.get(url, { headers, responseType: 'blob' }));
+        const file = await lastValueFrom(this.http.get(this.baseFileUrl+'/travelDocument/' + document.filename, { headers, responseType: 'blob' }));
         const blob = new Blob([file], { type: document.fileType });
         document.documentUrl = URL.createObjectURL(blob);
       } catch (err) {

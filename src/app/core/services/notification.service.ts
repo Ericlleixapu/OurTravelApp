@@ -49,5 +49,8 @@ export class NotificationService {
 	public showSuccess(msg: string) {
 		this.toastr.success(msg);
 	}
+	public error(msg: string) {
+		this.toastr.error(msg);
+	}
 
 }

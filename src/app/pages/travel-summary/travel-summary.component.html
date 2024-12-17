@@ -1,0 +1,36 @@
+<div class="container mainContainer position-relative">
+    <div *ngIf="!travel.followers?.includes(user._id)" title="Seguir" class="position-absolute top-0 end-0" style="padding:1em"><i
+            class="fa-regular fa-compass fa-2x fake-button" (click)="addFollower(travel)"></i>
+    </div>
+    <div *ngIf="travel.followers?.includes(user._id)" title="Deixar de seguir" class="position-absolute top-0 end-0" style="padding:1em"><i
+            class="fa-solid fa-compass fa-2x fake-button" (click)="removeFollower(travel)"></i>
+    </div>
+
+    <div class="row justify-content mb-3" *ngFor="let act of sortedActivities">
+        <h4 class="text-primary">{{act.destination.location}} {{act.destination.dateTo | date : 'd/M/yy'}} -
+            {{act.destination.dateFrom | date : 'd/M/yy'}}</h4>
+        <div class="dest-image" style="background-image: url('{{act.destination.imageUrl}}')">
+            <div class="row mt-3">
+                <div *ngFor="let activity of act.activities" class="col-md-2 col-sm-3  mb-3">
+                    <app-travel-element [description]="activity.name" [logo]="ActivityIcon[activity.type]"
+                        [dateFrom]="activity.date">
+                    </app-travel-element>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row justify-content">
+    <h4 class="text-primary">Trajectes</h4>
+        <div *ngFor="let journey of travel.journeys" class="col-md-2 mb-3">
+            <app-travel-element [description]="(journey.from?.location||'Casa') + ' - '+ (journey.to?.location||'Casa')"
+                [logo]="journey.journeyType" [type]="'trajecte'" [dateFrom]="journey.dateTimeFrom"
+                [dateTo]="journey.dateTimeTo">
+            </app-travel-element>
+        </div>
+
+    </div>
+
+
+</div>

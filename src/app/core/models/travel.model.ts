@@ -18,8 +18,10 @@ export class Travel {
     expenses: Expense[];
     images: Image[];
     documents: TravelDocument[];
+    followers: string[];
     members: User[];
     owner: User;
+    public: boolean = false;
     imageUrl?: String;
     dateFrom?: Date|null; 
     dateTo?: Date|null;
@@ -36,6 +38,7 @@ export class Travel {
         this.documents=[];
         this.members=[];
         this.members.push(user);
+        this.followers = [];
         this.owner=user;
         this.createdOn=new Date();
     }

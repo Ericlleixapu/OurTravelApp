@@ -1,0 +1,13 @@
+<div class="card travel-card" (click)="goToTravel(travel)">
+    <img [src]="travel.imageUrl||'http://localhost:3000/api/file/destinationImage/placeholderTravel.jpeg'"
+      style="height: 300px;" class="card-img-top destination-image" alt="...">
+      <div *ngIf="!travel.followers.includes(user._id)" class="position-absolute top-0 end-0" style="padding:0.5em"><i class="fa-regular fa-compass fa-2x fake-button" (click)="function = true;addFollower(travel)"></i>
+      </div>
+      <div *ngIf="travel.followers.includes(user._id)" class="position-absolute top-0 end-0" style="padding:0.5em"><i class="fa-solid fa-compass fa-2x fake-button" (click)="function = true;removeFollower(travel)"></i>
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">{{travel.name}} by 
+        <span class="card-text text-primary">{{travel.owner.alias}}</span></h5>
+      <p class="card-text">{{travel.dateFrom | date:'d/M/yy'}} - {{travel.dateTo | date:'d/M/yy'}}</p>
+    </div>
+  </div>

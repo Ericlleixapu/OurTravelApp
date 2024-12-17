@@ -97,6 +97,82 @@ export class TravelService {
 	getTravel(): Travel {
 		return this.travel;
 	}
+	
+
+	async getAllPublicTravels(): Promise<Travel[]> {
+		try {
+			let res = await lastValueFrom(this.http.get<Travel[]>(this.baseUrl+'/public'));
+			return res;
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al carregar els viatges');
+			return [];
+		}
+	}
+	async getPublicTravelById(id: string): Promise<Travel> {
+		try {
+			let res = await lastValueFrom(this.http.get<Travel>(this.baseUrl + '/public/' + id));
+			this.travel = res;
+			return res;
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al carregar els viatges');
+			return {} as Travel;
+		}
+	}	
+	async getPublicTravelByUser(): Promise<Travel[]> {
+		const headers = this.getAuthHeaders();
+		try {
+			let res = await lastValueFrom(this.http.get<Travel[]>(this.baseUrl+'/publicByUser', { headers }));
+			return res;
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al carregar els viatges');
+			return [];
+		}
+	}
+	async getPublicTravelByCountry(country: string): Promise<Travel[]> {
+		const headers = this.getAuthHeaders();
+		try {
+			let res = await lastValueFrom(this.http.get<Travel[]>(this.baseUrl+'/publicByCountry/'+country, { headers }));
+			return res;
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al carregar els viatges');
+			return [];
+		}
+	}
+
+	
+	async addFollowerToTravel(travel: Travel, follower: User) {
+		const headers = this.getAuthHeaders();
+		try {
+			await lastValueFrom(this.http.put<{ message: String, travel: Travel }>(this.baseUrl + '/public/addFollower/' + travel._id, follower, { headers }));
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al actualitzar el viatge');
+		}
+	}
+	async removeFollowerToTravel(travel: Travel, follower: User) {
+		const headers = this.getAuthHeaders();
+		try {
+			await lastValueFrom(this.http.put<{ message: String, travel: Travel }>(this.baseUrl + '/public/removeFollower/' + travel._id, follower, { headers }));
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al actualitzar el viatge');
+		}
+	}
+	async changeVisibility(travel: Travel) {
+		const headers = this.getAuthHeaders();
+		try {
+			await lastValueFrom(this.http.put<{ message: String, travel: Travel }>(this.baseUrl + '/changeVisibility/' + travel._id,{}, { headers }));
+		} catch (error: unknown) {
+			this.notification.handleError(error, 'Error al actualitzar el viatge');
+		}
+	}
+
+/*
+router.get('/public', travelController.getAllPublicTravels);
+router.get('/public/:id', travelController.getPublicTravelById);
+router.put('/public/:travelId', travelController.addFollowerToTravel);
+router.put('/changeVisibility/:travelId', authMiddleware, travelController.changeVisibility);
+
+router.put('/public/removeFollower/:travelId', authMiddleware,travelController.removeFollowerToTravel);
+*/
 
 	private getAuthHeaders(): HttpHeaders {
 		const token = this.authService.getToken();

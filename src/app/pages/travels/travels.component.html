@@ -1,4 +1,4 @@
-<div class="container mainContainer">
+<div class="container mainContainer mb-3">
 
   <div class="row">
     <h3 class="text-primary mb-3">Els meus viatges <button type="button" class="btn btn-outline-primary"
@@ -9,21 +9,30 @@
 
     <div *ngFor="let travel of travels" class="col-md-3 mb-3">
       <div class="card travel-card" (click)="null" (click)="goToTravel(travel)">
-        <img [src]="travel.imageUrl||'http://localhost:3000/api/file/destinationImage/placeholderTravel.jpeg'" style="height: 300px;" class="card-img-top destination-image" alt="...">
+        <img [src]="travel.imageUrl||'http://localhost:3000/api/file/destinationImage/placeholderTravel.jpeg'"
+          style="height: 300px;" class="card-img-top destination-image" alt="...">
         <div class="position-absolute top-0 end-0" style="padding:0.5em">
-          <button type="button" class="btn btn-outline-primary btn-sm" (click)="removeTravelModal(travel._id,deleteModal)">Eliminar</button>
+          <button type="button" class="btn btn-primary btn-sm"
+            (click)="removeTravelModal(travel._id,deleteModal)">Eliminar</button>
         </div>
 
         <div class="card-body">
           <h5 class="card-title">{{travel.name}}</h5>
           <p class="card-text">{{travel.dateFrom | date:'d/M/yy'}} - {{travel.dateTo | date:'d/M/yy'}}</p>
         </div>
+        <div class="position-absolute bottom-0 end-0" style="padding:0.5em">
+          <button *ngIf="!travel.public" type="button" class="btn btn-outline-success btn-sm"
+            (click)="function = true;changeVisibility(travel)">Publicar</button>
+          <button *ngIf="travel.public" type="button" class="btn btn-outline-danger btn-sm"
+            (click)="function = true;changeVisibility(travel)">Privat</button>
+        </div>
       </div>
     </div>
-    
+
     <div class="col-md-3 mb-3">
       <div class="card travel-card" [routerLink]="'/travel'" (click)="createTravel()">
-        <img src="http://localhost:3000/api/file/destinationImage/placeholder.jpeg" style="height: 300px;" class="card-img-top destination-image" alt="...">
+        <img src="http://localhost:3000/api/file/destinationImage/placeholder.jpeg" style="height: 300px;"
+          class="card-img-top destination-image" alt="...">
         <div class="card-body">
           <h5 class="card-title">Afegeix un nou viatge</h5>
           <p class="card-text">Una nova aventura comença aqui.</p>
@@ -36,21 +45,42 @@
 </div>
 
 
+<div *ngIf="followedTravels.length > 0" class="container mainContainer">
+
+  <div class="row">
+    <h3 class="text-primary mb-3">Viatges Guardats</h3>
+  </div>
+
+  <div class="row justify-content-center">
+
+    <div *ngFor="let travel of followedTravels" class="col-md-3 mb-3">
+
+      <app-public-travel-card [travel]="travel"></app-public-travel-card>
+
+
+    </div>
+
+  </div>
+</div>
+
+
 <ng-template #deleteModal let-modal>
   <div class="modal-header">
-      <h4 class="modal-title text-primary">Eliminar viatge <b class="text-danger"></b>
-      </h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="remove = '';modal.dismiss('Cross click')"></button>
+    <h4 class="modal-title text-primary">Eliminar viatge <b class="text-danger"></b>
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close"
+      (click)="function = false;modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-      <p>Estas segur que vols eliminar el viatge
-          <b class="text-danger">  </b>
-          ? es perdràn totes les imatges i documents relacionats amb aquest viatge, aquest canvi no es pot desfer.
-      </p>
+    <p>Estas segur que vols eliminar el viatge
+      <b class="text-danger"> </b>
+      ? es perdràn totes les imatges i documents relacionats amb aquest viatge, aquest canvi no es pot desfer.
+    </p>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="removeTravel();modal.dismiss('Cross click')">Eliminar <i
-              class="bi bi-trash3-fill"></i></button>
-      <button type="button" class="btn btn-secondary" (click)="remove = '';modal.close('Close click')">Cancel·lar</button>
+    <button type="button" class="btn btn-danger" (click)="removeTravel();modal.dismiss('Cross click')">Eliminar <i
+        class="bi bi-trash3-fill"></i></button>
+    <button type="button" class="btn btn-secondary"
+      (click)="function = false;modal.close('Close click')">Cancel·lar</button>
   </div>
 </ng-template>

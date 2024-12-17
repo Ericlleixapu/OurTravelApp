@@ -13,7 +13,7 @@ export class UserService {
   private currentUser: User = {} as User;
 
   constructor(private http: HttpClient, private authService: AuthService, private notificationService: NotificationService) {
-   }
+  }
 
   public async login(loginEmail: string, loginPassword: string) {
 
@@ -28,7 +28,6 @@ export class UserService {
   public async register(newUser: User) {
     await this.authService.register(newUser);
   }
-
 
   async getUserProfile(): Promise<User> {
     try {
@@ -48,21 +47,20 @@ export class UserService {
   async searchUsers(query: string): Promise<User[]> {
     try {
       const headers = this.getAuthHeaders();
-      const res = await lastValueFrom(this.http.get<User[]>(this.baseUrl + '/search/'+query, {headers }))
+      const res = await lastValueFrom(this.http.get<User[]>(this.baseUrl + '/search/' + query, { headers }))
       return res;
-    } catch (error:unknown) {
+    } catch (error: unknown) {
       return [];
     }
   }
-  
-  // Actualitza el perfil de l'usuari
+
   async updateUserProfile(userData: Partial<User>): Promise<User> {
     const headers = this.getAuthHeaders();
     this.currentUser = await lastValueFrom(this.http.put<User>(this.baseUrl + '/profile', { user: userData }, { headers }));
+    console.log(this.currentUser);
     return this.currentUser;
   }
 
-  // TODO Actualitza el perfil de l'usuari
   async updatePassword(oldPassword: string, newPassword: string): Promise<User> {
     const headers = this.getAuthHeaders();
     try {
@@ -74,7 +72,6 @@ export class UserService {
     }
   }
 
-  // Obté els headers d'autorització amb el token
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
     return new HttpHeaders({
@@ -86,25 +83,27 @@ export class UserService {
     this.currentUser = {} as User;
     this.authService.logout();
   }
+  public isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
 
-  static checkData(email: string, pass?: string, confirm?: string,) {
+  public checkData(email: string, pass?: string, confirm?: string,) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
-      alert('El correu electrònic no es correcte.');
+      this.notificationService.error('El correu electrònic no es correcte.');
       return false;
     }
     if (pass !== null && confirm !== null) {
       if (pass == '') {
-        alert('La contrasenya no es pot deixar en blanc.');
+        this.notificationService.error('La contrasenya no es pot deixar en blanc.');
         return false;
       }
       if (pass !== confirm) {
-        alert('Les contrasenyes no coincideixen.');
+        this.notificationService.error('Les contrasenyes no coincideixen.');
         return false;
       }
     }
     return true;
   }
-
 
 }

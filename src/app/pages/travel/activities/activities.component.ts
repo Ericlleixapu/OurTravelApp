@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-activities',
   standalone: true,
-  imports: [CommonModule, TravelElementComponent, FormsModule,NgbDatepickerModule, NgbTimepicker],
+  imports: [CommonModule, TravelElementComponent, FormsModule, NgbDatepickerModule, NgbTimepicker],
   templateUrl: './activities.component.html',
   styleUrl: './activities.component.scss'
 })
@@ -25,9 +25,9 @@ export class ActivitiesComponent implements OnInit {
   public selectedActivity: Activity = {} as Activity;
 
   public today = new Date();
-  
-	public activityNgbDate: NgbDate={} as NgbDate;
-	public date: { year: number, month: number}={ year: this.today.getFullYear(), month: this.today.getMonth() + 1};
+
+  public activityNgbDate: NgbDate = {} as NgbDate;
+  public date: { year: number, month: number } = { year: this.today.getFullYear(), month: this.today.getMonth() + 1 };
   public activityNgbTime = { hour: 0, minute: 0 };
 
   constructor(private modalService: NgbModal, private activityService: ActivityService, private travelService: TravelService) {
@@ -52,31 +52,32 @@ export class ActivitiesComponent implements OnInit {
   }
   async addActivity() {
     this.selectedActivity.date = this.convertNgbDateToDate(this.activityNgbDate, this.activityNgbTime);
-    if(!this.checkForm()) return;
+    if (!this.checkForm()) return;
     await this.activityService.addActivity(this.selectedActivity);
     this.activities = await this.activityService.getActivitiesByTravel(this.travel._id);
+    this.travel.activities = this.activities;
     this.modalService.dismissAll();
-  }  
+  }
   async updateActivity() {
     this.selectedActivity.date = this.convertNgbDateToDate(this.activityNgbDate, this.activityNgbTime);
-    if(!this.checkForm()) return;
+    if (!this.checkForm()) return;
     await this.activityService.updateActivity(this.selectedActivity);
     this.activities = await this.activityService.getActivitiesByTravel(this.travel._id);
     this.modalService.dismissAll();
   }
-  async removeActivity(activity: Activity) {    
-    await this.activityService.deleteActivity(this.selectedActivity);
+  async removeActivity(activity: Activity) {
+    await this.activityService.deleteActivity(activity);
     this.activities = await this.activityService.getActivitiesByTravel(this.travel._id);
   }
 
-  checkForm():boolean{
-    if(this.selectedActivity.name == '' || !this.selectedActivity.destination){
+  checkForm(): boolean {
+    if (this.selectedActivity.name == '' || !this.selectedActivity.destination) {
       alert("S'han d'omplir tots els camps");
       return false;
     }
     return true;
   }
-  
+
   convertDateToNgbDate(date: Date) {
     let dateFrom = new Date(date);
     return { date: new NgbDate(dateFrom.getFullYear(), dateFrom.getMonth() + 1, dateFrom.getDate()), time: { hour: dateFrom.getHours(), minute: dateFrom.getMinutes() } };
